@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
 
 router.get('/callback', function (req, res, next) {
   if (!req.query.code) {
-    return req.redirect('/');
+    return res.redirect('/');
   }
 
   facebook.accessToken(req.query.code, function (err, result) {
