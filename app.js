@@ -4,8 +4,15 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var flash = require('connect-flash');
+
+var authFilter = require('./filter/auth')({
+  allows: [ '/login', '/login/callback' ]
+});
 
 var routes = require('./routes/index');
+var login = require('./routes/login');
 var users = require('./routes/users');
 
 var app = express();
@@ -19,10 +26,18 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(session({
+  secret: 'iYrGXU6oHwLPYry764c9eIsBg0lbozgv',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(flash());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(authFilter);
 app.use('/', routes);
+app.use('/login', login);
 app.use('/users', users);
 
 /// catch 404 and forward to error handler
@@ -33,6 +48,17 @@ app.use(function(req, res, next) {
 });
 
 /// error handlers
+
+/// error handlers
+app.use(function(err, req, res, next) {
+  if(err instanceof Error) {
+    if (err.message == '401') {
+      req.flash('error', 'ログインしてください。');
+      return res.redirect('/login');
+    }
+  }
+  next(err);
+});
 
 // development error handler
 // will print stacktrace
