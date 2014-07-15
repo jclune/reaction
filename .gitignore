@@ -140,3 +140,9 @@ build/Release
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
 
+# bower (don't forget to type 'bower install')
+bower_components
+
+# compiled css from stylus
+public/stylesheets/style.css
+

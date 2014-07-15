@@ -1,6 +1,8 @@
 {
-  "name": "reaction",
-  "version": "0.0.1",
+  "name": "Reaction",
+  "version": "0.0.0",
+  "description": "Gokon matching",
+  "main": "app.js",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -17,6 +19,20 @@
     "jade": "~1.3.0",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0",
-    "stylus": "0.42.3"
-  }
+    "stylus": "0.42.3",
+    "socket.io": "*",
+    "bower": "^1.3.8",
+    "gulp": "^3.8.6"
+  },
+  "devDependencies": {
+    "express-livereload": "0.0.24",
+    "gulp-jshint": "^1.7.1",
+    "jshint-stylish": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://jclune@bitbucket.org/ca_reaction/reaction.git"
+  },
+  "author": "",
+  "license": "MIT"
 }

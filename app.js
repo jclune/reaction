@@ -10,6 +10,7 @@ var flash = require('connect-flash');
 var authFilter = require('./filter/auth')({
   allows: [ '/login', '/login/callback' ]
 });
+var expressLivereload = require('express-livereload');
 
 var routes = require('./routes/index');
 var login = require('./routes/login');
@@ -34,6 +35,9 @@ app.use(session({
 app.use(flash());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
+
+expressLivereload(app, config={});
 
 app.use(authFilter);
 app.use('/', routes);
