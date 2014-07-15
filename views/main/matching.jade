@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  header.clearfix
+    #menuRight.menu
+      span.glyphicon.glyphicon-th
+    #menuLeft.menu
+      span#search.glyphicon.glyphicon-search
+      form#searchForm.pure-form
+        input#search(type='text', placeholder='search', autofocus='autofocus')
+    .center-wrap
+      h1#header.center Reaction　&nbsp;
+        i.fa.fa-bomb
+  .center-wrap
+    .sidebyside.center
+      button.pure-button.pure-button-primary Love
+      button.pure-button.pure-button-secondary Hate
+  #container.center-wrap
+    ul#photos.center
+      li#loading(style='width: 320px; height: 320px; background: gray url(\'/images/load.gif\') no-repeat center center;')
+  script(type='text/javascript', src='/scripts/dragdrop.js')
+
