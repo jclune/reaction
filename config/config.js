@@ -1,12 +1,20 @@
-var config = {};
-
-config.rootUrl = process.env.ROOT_URL || 'http://localhost:3000/';
-
-config.facebook = {
-  appId: '569431436501005',
-  appSecret: '60c6d308d2bb49f19f8ed088c20a2690',
-  appNamespace: '',
-  redirectUri: config.rootUrl + 'login/callback'
+var config = {
+  facebook: {
+    clientID: '569431436501005',
+    clientSecret: '60c6d308d2bb49f19f8ed088c20a2690',
+    callbackURL: 'http://localhost:3000/auth/facebook/callback'
+  },
+  mongo: {
+    uri: 'mongodb://localhost/reaction',
+    options: {
+      db: {
+        native_parser: true
+      },
+      server: {
+        poolSize: 5
+      }
+    }
+  }
 };
 
 module.exports = config;
