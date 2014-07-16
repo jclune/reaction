@@ -1,6 +1,6 @@
-extends ../layout
+extends layout
 block content
   h1= title
   p ログインしてください。
   #loginUrl
-    a(href=loginUrl) ログイン via Facebook
+    a(href='/auth/facebook') ログイン via Facebook
