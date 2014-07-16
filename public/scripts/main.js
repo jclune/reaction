@@ -1,6 +1,6 @@
 
 (function($, window, document) {
-  $(function() {
-    document.getElementById('title').innerHTML = "hello javascript ";
+  $(function main() {
+    var x = 4;
   });
 }(window.jQuery, window, document));

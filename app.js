@@ -47,13 +47,14 @@ app.use(flash());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'test')));
 
 // Bootstrap passport config
 var passport = require('./config/passport')(app, config);
+expressLivereload(app, config={});
 
 // Bootstrap routes
 require('./routes/routes')(app, passport);
 
-expressLivereload(app);
 
 module.exports = app;
