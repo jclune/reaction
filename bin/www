@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var debug = require('debug')('reaction');
 var app = require('../app');
-var chat = require('../public/scripts/chat')
+var websocket = require('../lib/websocket');
 
 app.set('port', process.env.PORT || 3000);
 
@@ -10,4 +10,4 @@ var server = app.listen(app.get('port'), function() {
 });
 
 var io = require('socket.io')(server);
-chat(app, io);
+websocket(app, io);
