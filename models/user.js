@@ -3,7 +3,6 @@
  */
 
 var mongoose = require('mongoose');
-var crypto = require('crypto');
 
 var Schema = mongoose.Schema;
 var oAuthTypes = [
@@ -25,7 +24,9 @@ var UserSchema = new Schema({
   provider: { type: String, default: '' },
   authToken: { type: String, default: '' },
   facebook: {},
-  friends: [{type: Schema.Types.ObjectId, ref: 'User'}]
+  friends: [
+    {type: Schema.Types.ObjectId, ref: 'User'}
+  ]
 });
 
 /**
@@ -43,8 +44,8 @@ UserSchema.path('name').validate(function (name) {
 
 UserSchema.path('email').validate(function (email, fn) {
   var User = mongoose.model('User');
-  if (this.skipValidation()) fn(true);
-
+  if (this.skipValidation()) return fn(true);
+  if (this.email) return fn(true);
   // Check only when it is a new user or when email field is modified
   if (this.isNew || this.isModified('email')) {
     User.find({ email: email }).exec(function (err, users) {
