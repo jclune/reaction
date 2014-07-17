@@ -17,7 +17,9 @@ module.exports = function (config) {
           user = new User();
         }
         user.name = profile.displayName;
-        user.email = profile.emails[0].value;
+        if (profile.emails) {
+          user.email = profile.emails[0].value;
+        }
         user.username = profile.username;
         user.provider = 'facebook';
         user.facebook = profile._json;
