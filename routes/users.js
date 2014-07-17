@@ -13,8 +13,11 @@ router.get('/', function (req, res) {
 /**
  * 写真取得
  */
-router.get('/:id([0-9a-f]{24})/picture', function (req, res) {
+router.get('/:id([0-9a-f]{24}|my)/picture', function (req, res) {
   var uid = req.params.id;
+  if('my' == uid) {
+    uid = req.user.id;
+  }
 
   User.findById(new ObjectId(uid), 'facebook.id', function (err, u) {
     if (err) throw err;
@@ -26,11 +29,14 @@ router.get('/:id([0-9a-f]{24})/picture', function (req, res) {
 /**
  * 自己紹介
  */
-router.route('/:id([0-9a-f]{24})/bio')
+router.route('/:id([0-9a-f]{24}|my)/bio')
 
   .get(function (req, res) {
     // 自己紹介の取得
     var uid = req.params.id;
+    if('my' == uid) {
+      uid = req.user.id;
+    }
     return User.findById(new ObjectId(uid), 'bio', function (err, u) {
       if(err) throw err;
       u = u || {};
@@ -42,7 +48,9 @@ router.route('/:id([0-9a-f]{24})/bio')
   .put(function (req, res) {
     // 自己紹介の更新
     var uid = req.params.id;
-
+    if('my' == uid) {
+      uid = req.user.id;
+    }
     // ユーザー権限チェック
     var user = req.user;
     if(uid != user.id) {
