@@ -16,9 +16,16 @@ var app = express();
 
 require('./config/mongoose')(app, config);
 
+var store = new mongoStore({
+  url: config.mongo.uri,
+  collection: 'session'
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('store', store)
+app.set('secret key', 'iYrGXU6oHwLPYry764c9eIsBg0lbozgv');
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -38,10 +45,7 @@ app.use(session({
   secret: 'iYrGXU6oHwLPYry764c9eIsBg0lbozgv',
   resave: true,
   saveUninitialized: true,
-  store: new mongoStore({
-    url: config.mongo.uri,
-    collection: 'session'
-  })
+  store: store
 }));
 app.use(flash());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
