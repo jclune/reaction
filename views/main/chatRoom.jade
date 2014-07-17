@@ -21,5 +21,5 @@ block content
     })
 
     socket.on('message', function(message) {
-      $('#conversation').append($('<li />').text(message));
+      $('#conversation').append($('<li />').text(message.userId + ': ' + message.message));
     });
