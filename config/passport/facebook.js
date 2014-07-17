@@ -3,6 +3,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var User = mongoose.model('User');
 var facebook = require('../../lib/facebook');
 var async = require('async');
+var moment = require('moment');
 
 module.exports = function (config) {
   return new FacebookStrategy({
@@ -15,13 +16,20 @@ module.exports = function (config) {
         if (err) return done(err);
         if (!user) {
           user = new User();
+          user.created_at = Date.now();
+          user.name = profile.displayName;
+          if (profile.emails) {
+            user.email = profile.emails[0].value;
+          }
+          user.username = profile.username; // ユーザー名
+          user.bio = profile._json.bio || ''; // 自己紹介
+          user.gender = profile.gender || ''; // 性別
+          if (profile._json.birthday) { // 誕生日
+            user.birthday = moment(profile._json.birthday, 'MM/DD/YYYY').toDate();
+          }
+          user.provider = 'facebook';
         }
-        user.name = profile.displayName;
-        if (profile.emails) {
-          user.email = profile.emails[0].value;
-        }
-        user.username = profile.username;
-        user.provider = 'facebook';
+
         user.facebook = profile._json;
         user.authToken = accessToken;
 
