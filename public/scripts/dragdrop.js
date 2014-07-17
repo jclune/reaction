@@ -96,12 +96,12 @@
             menuLeft.addEventListener("click", function(event) {
                 settings();
             }, false);
-            var love = document.getElementsByClassName("pure-button-primary");
+            var love = document.getElementsByClassName("pure-button-secondary");
             love[0].addEventListener("click", function() {
                 //console.log(ul.children[0]);
                 lovehate(ul.children[0], -1);
             }, false);
-            var hate = document.getElementsByClassName("pure-button-secondary");
+            var hate = document.getElementsByClassName("pure-button-primary");
             hate[0].addEventListener("click", function() {
                 //console.log(ul.children[0]);
                 lovehate(ul.children[0], 1);

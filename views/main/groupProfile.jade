@@ -2,6 +2,39 @@ extends ../layout
 
 block content
   h1#title= title
-  p Welcome to #{title}
-  p fontawesome is the bomb
-    i.fa.fa-bomb.fa-4x
+  ul.group
+    li.my
+      h5
+        span My Bio: &nbsp;
+        span.mybio
+      h5
+        span My Name: &nbsp;
+        span.myname
+      h5
+        span My Age: &nbsp;
+        span.myage
+      img.myphoto(src="/users/my/picture")
+
+    li.friend1
+      h5
+        span Bio: &nbsp;
+        span.bio
+      h5
+        span Name: &nbsp;
+        span.name
+      h5
+        span Age: &nbsp;
+        span.age
+      //img.myphoto(src="/users/"+#{id}+"/picture")
+
+    li.friend2
+      h5
+        span Bio: &nbsp;
+        span.bio
+      h5
+        span Name: &nbsp;
+        span.name
+      h5
+        span Age: &nbsp;
+        span.age
+      //img.myphoto(src="/users/"+#{id}+"/picture")
