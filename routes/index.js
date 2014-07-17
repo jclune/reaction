@@ -6,12 +6,14 @@ router.get('/', function (req, res) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/chatRoom', function(req, res) {
-  res.render('main/chatRoom', { title: 'Chat Room' });
+router.get('/chatRoom/:roomId', function(req, res) {
+  res.render('main/chatRoom', { title: 'Chat Room', roomId: req.params.roomId });
 });
 
 router.get('/chatRoomList', function(req, res) {
-  res.render('main/chatRoomList', { title: 'Chat Room List' });
+  // get roomIdList from user._id
+  var roomIdList = ['room1', 'room2', 'room3'];
+  res.render('main/chatRoomList', { title: 'Chat Room List', roomIdList: roomIdList});
 });
 
 router.get('/chooseFriends', function(req, res) {

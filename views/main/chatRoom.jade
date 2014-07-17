@@ -3,5 +3,23 @@ extends ../layout
 block content
   h1#title= title
   p Welcome to #{title}
-  p fontawesome is the bomb
-    i.fa.fa-bomb.fa-4x
+
+  ul#conversation
+
+  input#message
+  input#submit(type='submit', value='submit')
+
+  script(src='//code.jquery.com/jquery-1.11.0.min.js')
+  script(src='/socket.io/socket.io.js')
+  script.
+    var socket = io('/chatRoom');
+    socket.emit('join room', '#{roomId}');
+
+    $('#submit').on('click', function(event) {
+      socket.emit('message', $('#message').val());
+      $('#message').val('');
+    })
+
+    socket.on('message', function(message) {
+      $('#conversation').append($('<li />').text(message));
+    });
