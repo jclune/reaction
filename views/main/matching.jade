@@ -3,9 +3,11 @@ extends ../layout
 block content
   header.clearfix
     #menuRight.menu
-      span.glyphicon.glyphicon-th
+      span
+        i.fa.fa-th.fa-2x
     #menuLeft.menu
-      span#search.glyphicon.glyphicon-search
+      span#search
+        i.fa.fa-search.fa-2x
       form#searchForm.pure-form
         input#search(type='text', placeholder='search', autofocus='autofocus')
     .center-wrap
@@ -13,8 +15,9 @@ block content
         i.fa.fa-bomb
   .center-wrap
     .sidebyside.center
-      button.pure-button.pure-button-primary Love
-      button.pure-button.pure-button-secondary Hate
+      button.pure-button.pure-button-secondary pass
+      button.pure-button.pure-button-primary
+        i.fa.fa-heart.fa-3x(style="margin-top: 8px; color: white;")
   #container.center-wrap
     ul#photos.center
       li#loading(style='width: 320px; height: 320px; background: gray url(\'/images/load.gif\') no-repeat center center;')
