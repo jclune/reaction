@@ -10,7 +10,7 @@ block content
   script(src='/socket.io/socket.io.js')  
   script.
     var socket = io('/chatRoomList');
-    socket.on('chatRoomList', function(chatRoomList) {
+    socket.on('send chatRoomList', function(chatRoomList) {
       chatRoomList.forEach(function(chatRoom) {
         var li = $('<li><a href="/chatRoom/'
         + chatRoom.room

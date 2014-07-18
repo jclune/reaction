@@ -1,0 +1,18 @@
+form {
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  background-color: #fff;
+}
+h1 {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  background-color: #fff;
+}
+ul {
+  padding: 40px;
+}
