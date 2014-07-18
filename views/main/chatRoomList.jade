@@ -1,10 +1,15 @@
 extends ../layout
 
 block content
-  h1#title= title
+  h1.titlehead#title= title
   p Welcome to #{title}
 
-  ul#chatRoomList
+  ul
+    for roomId in roomIdList
+      .list.clearfix
+        img.left(src='/users/my/picture/')
+        li.left
+          a(href= '/chatRoom/' + '#{roomId}') #{roomId}
   
   script(src='//code.jquery.com/jquery-1.11.0.min.js')
   script(src='/socket.io/socket.io.js')  
