@@ -2,74 +2,73 @@
 (function($, window, document) {
   $(function main() {
 
-    // edit profile
-    var mybio = "my bio";
-    var myname = "Justin Clune";
-    var myphoto = "#";
-    var myage = "25";
+    var bio = {bio: "my bio"};
+    getdata.getMy();
+    getdata.getFriends();
 
-    var data = {bio: mybio};
+    // main.getMy = function(){
 
-    // put fake profile info in bio
-    $.ajax({
-      url: "/users/my/bio", 
-      data: data,
-      type: "PUT"
-    }).done(function(result){
-      console.log("Result: ", result);
-    });
+    //   // put fake bio info
+    //   $.ajax({
+    //     url: "/users/my/bio", 
+    //     data: bio,
+    //     type: "PUT"
+    //   }).done(function(result){
+    //     console.log("Put result: ", result);
+    //   });
 
-    // get profile info
-    $.get('/users/my/bio', function(data){
-      console.log(data);
-      for (key in data){
+    //   // get my profile info
+    //   $.get('/users/my/bio', function(data){
+    //     var prefix = 'my-';
+    //     setElements(data, prefix);
+    //   }, 'JSON');
 
-        function setData(element){
-          if (element && element.tagName === "image"){
-            element.setAttribute("src", data[key]);
-          } else if (element){
-            console.log("set value ", data[key]);
-            element.innerHTML = data[key];
-          } else {
-            console.log("document doesn't have elments for: ", key);
-          }
-        }
-        var elements = document.getElementsByClassName("my"+key);
-        if (elements){
-          for (var i=0; i < elements.length; i++){
-            setData(elements[i]);
-          }
-        } else {
-          console.log("document doesn't have elments for: ", key);
-        }
-      }
-      
-    }, 'JSON');
+    //   $.get('/users/my/picture', function(data){
+    //     var prefix = 'my-';
+    //     setElements(data, prefix);
+    //   }, 'JSON');
+    // };
 
-    $.get('/users/my/picture', function(data){
-      console.log(data);
-      for (key in data){
+    // // get my friends profile info
+    // var fids = ['53c75703945748fab4769e23', '53c75703945748fab4769e24'];
 
-        function setData(element){
-          if (element && element.tagName === "image"){
-            element.setAttribute("src", data[key]);
-          } else if (element){
-            console.log("set value ", data[key]);
-            element.innerHTML = data[key];
-          } else {
-            console.log("document doesn't have elments for: ", key);
-          }
-        }
-        var elements = document.getElementsByClassName("my"+key);
-        if (elements){
-          for (var i=0; i < elements.length; i++){
-            setData(elements[i]);
-          }
-        } else {
-          console.log("document doesn't have elments for: ", key);
-        }
-      }
-      
-    }, 'JSON');
+    // fids.forEach(function(fid, i){
+
+    //   $.get('/users/'+fid+'/bio', function(data){
+    //     var prefix = 'f'+i+'-';
+    //     setElements(data, prefix);
+    //   }, 'JSON');
+
+    //   $.get('/users/'+fid+'/picture', function(data){
+    //     var prefix = 'f'+i+'-';
+    //     setElements(data, prefix);
+    //   }, 'JSON');
+    // });
+
+    // // finds html class names that match the json keys
+    // function setElements(json, uid){
+    //   for (var key in json){
+    //     var my = uid || '';
+    //     var elements = document.getElementsByClassName(my+key);
+    //     if (elements){
+    //       for (var i=0; i < elements.length; i++){
+    //         setElement(elements[i], validator.toString(json[key]));
+    //       }
+    //     } else {
+    //       console.log("document doesn't have elments for: ", my+key);
+    //     }
+    //   }
+    // }
+    // function setElement(element, value){
+    //   if ((element) && typeof value !== "undefined"){
+    //     element.innerHTML = value;
+    //     console.log("set element ", element);
+    //     console.log("with value ", value);
+    //   } else {
+    //     console.log("couldn't set element ", element);
+    //     console.log("with value ", value);
+    //   }
+    // }
+    // return main;
   });
 }(window.jQuery, window, document));
