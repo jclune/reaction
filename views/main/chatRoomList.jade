@@ -4,12 +4,19 @@ block content
   h1#title= title
   p Welcome to #{title}
 
-  ul
-    for roomId in roomIdList
-      li
-        a(href= '/chatRoom/' + '#{roomId}') #{roomId}
+  ul#chatRoomList
   
   script(src='//code.jquery.com/jquery-1.11.0.min.js')
   script(src='/socket.io/socket.io.js')  
   script.
     var socket = io('/chatRoomList');
+    socket.on('chatRoomList', function(chatRoomList) {
+      chatRoomList.forEach(function(chatRoom) {
+        var li = $('<li><a href="/chatRoom/'
+        + chatRoom.room
+        + '">'
+        + chatRoom.room
+        + '</a></li>');
+        $('#chatRoomList').append(li);
+      });
+    });
