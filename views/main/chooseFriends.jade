@@ -1,21 +1,47 @@
 extends ../layout
 
 block content
-  h1#title= title
+  h1.titlehead#title= title
   h1 choose 2 for your gokon team!
   ul.chooseFriends
-    li.clearfix
-      h5.left Justin Clune, &nbsp;
-      h5.left 25 
-      a
-        h5.right(href="#") add
-    li.clearfix
-      h5.left Justin Clune, &nbsp;
-      h5.left 25 
-      a
-        h5.right(href="#") add
-    li.clearfix
-      h5.left Justin Clune, &nbsp;
-      h5.left 25 
-      a
-        h5.right(href="#") add
+    .list2
+      img.left(src='/users/my/picture/')
+      li.clearfix
+        h5.left Justin Clune, &nbsp;
+        h5.left 25 
+        a
+          h5.right.addbutton(href="#") add
+    .list2
+      img.left(src='/users/my/picture/')
+      li.clearfix
+        h5.left Justin Clune, &nbsp;
+        h5.left 25
+        a
+          h5.right.addbutton(href="#") add
+    .list2
+      img.left(src='/users/my/picture/')
+      li.clearfix
+        h5.left Justin Clune, &nbsp;
+        h5.left 25 
+        a
+          h5.right.addbutton(href="#") add
+
+  //- script(src='//code.jquery.com/jquery-1.11.0.min.js')
+  //- script(src='/socket.io/socket.io.js')
+  //- script.
+  //-   var socket = io('/chatRoom');
+  //-   socket.emit('join room', '#{roomId}');
+
+  //-   $('#submit').on('click', function(event) {
+  //-     socket.emit('message', $('#message').val());
+  //-     $('#message').val('');
+  //-   })
+
+  //-   socket.on('message', function(message) {
+  //-     var li = $('<li> <img src="/users/'
+  //-     + message.userId + '/picture" /><span>'
+  //-     + message.message + '</span></li>');
+  //-     $('#conversation').append(li);
+  //-   });
+
+
