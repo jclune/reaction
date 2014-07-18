@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
  */
 router.get('/:id([0-9a-f]{24}|my)/picture', function (req, res) {
   var uid = req.params.id;
-  if('my' == uid) {
+  if ('my' === uid) {
     uid = req.user.id;
   }
 
@@ -34,11 +34,12 @@ router.route('/:id([0-9a-f]{24}|my)/bio')
   .get(function (req, res) {
     // 自己紹介の取得
     var uid = req.params.id;
-    if('my' == uid) {
+    if ('my' === uid) {
       uid = req.user.id;
     }
+
     return User.findById(new ObjectId(uid), 'bio', function (err, u) {
-      if(err) throw err;
+      if (err) throw err;
       u = u || {};
       return res.json({
         bio: u.bio || ''
@@ -48,25 +49,23 @@ router.route('/:id([0-9a-f]{24}|my)/bio')
   .put(function (req, res) {
     // 自己紹介の更新
     var uid = req.params.id;
-    if('my' == uid) {
+    if ('my' === uid) {
       uid = req.user.id;
     }
     // ユーザー権限チェック
     var user = req.user;
-    if(uid != user.id) {
+    if (uid != user.id) {
       return res.send('no_auth');
     }
 
     // 内容があるかどうか
-    console.log(req.params);
-    console.log("HELLO", req.param('bio'));
-    if(!_s.trim(req.body.bio)) {
+    if (!_s.trim(req.body.bio)) {
       return res.send('bio_is_empty');
     }
 
     User.findByIdAndUpdate(new ObjectId(uid), {
       bio: req.body.bio
-    }, function(err, u) {
+    }, function (err, u) {
       return res.send('true');
     });
   });
