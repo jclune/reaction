@@ -2,39 +2,41 @@ extends ../layout
 
 block content
   h1#title= title
-  ul.group
-    li.my
-      h5
-        span My Bio: &nbsp;
-        span.mybio
-      h5
-        span My Name: &nbsp;
-        span.myname
-      h5
-        span My Age: &nbsp;
-        span.myage
-      img.myphoto(src="/users/my/picture")
-
-    li.friend1
-      h5
-        span Bio: &nbsp;
-        span.bio
-      h5
-        span Name: &nbsp;
-        span.name
-      h5
-        span Age: &nbsp;
-        span.age
-      //img.myphoto(src="/users/"+#{id}+"/picture")
-
-    li.friend2
-      h5
-        span Bio: &nbsp;
-        span.bio
-      h5
-        span Name: &nbsp;
-        span.name
-      h5
-        span Age: &nbsp;
-        span.age
-      //img.myphoto(src="/users/"+#{id}+"/picture")
+  .center-wrap
+    ul.card.center.boxShadow
+      li.my
+        .clearfix
+          img.left.my-picture.picture
+          span.left.profile
+            .clearfix
+              span.left
+                h5.my-name.name Name
+              span.left
+                h5 ,&nbsp;
+              span.left
+                h5.my-age.age Age
+            h5.my-bio.bio      
+      li.f1
+        .clearfix
+          img.left.f1-picture.picture
+          span.left.profile
+            .clearfix
+              span.left
+                h5.f1-name.name Name
+              span.left
+                h5 ,&nbsp;
+              span.left
+                h5.f1-age.age Age
+            h5.f1-bio.bio
+      li.f2
+        .clearfix
+          img.left.f2-picture.picture
+          span.left.profile
+            .clearfix
+              span.left
+                h5.f2-name.name Name
+              span.left
+                h5 ,&nbsp;
+              span.left
+                h5.f2-age.age Age
+            h5.f2-bio.bio  

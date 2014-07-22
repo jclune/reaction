@@ -119,11 +119,24 @@
             element.addEventListener("touchend", function() {
                 touchend(event, element);
             }, false);
+            element.addEventListener("mousedown", function() {
+                touchstart(event, element, "mouse");
+            }, false);
+            element.addEventListener("mousemove", function() {
+                touchmove(event, element, "mouse");
+            }, false);
+            // element.addEventListener("mouseup", function() {
+            //     touchend(event, element, "mouse");
+            // }, false);
         }
 
-        function touchstart(event, element) {
+        function touchstart(event, element, mouse) {
             //console.log(element.style.marginLeft);
-            touch = event.changedTouches[0] || event.touches[0];
+            if (mouse){
+                touch = event;
+            }else{
+                touch = event.changedTouches[0] || event.touches[0];
+            }
             startX = touch.clientX;
             startY = touch.clientY;
             startML = parseInt(element.style.marginLeft);
@@ -132,8 +145,16 @@
             // event.stopPropagation();
         }
 
-        function touchmove(event, element) {
-            touch = event.changedTouches[0] || event.touches[0];
+        function touchmove(event, element, mouse) {
+            if (mouse){
+                touch = event;
+                if (Math.abs(touch.clientX - startX) > 200 ){
+                    console.log("nudge");
+                    touchend(event, element, mouse);
+                }
+            }else{
+                touch = event.changedTouches[0] || event.touches[0];
+            }
             var x = touch.clientX - startX;
             var y = touch.clientY - startY;
             element.style.marginLeft = (startML + x) + "px";
@@ -160,8 +181,12 @@
             event.stopPropagation();
         }
 
-        function touchend(event, element) {
-            touch = event.changedTouches[0] || event.touches[0];
+        function touchend(event, element, mouse) {
+            if (mouse){
+                touch = event;
+            }else{
+                touch = event.changedTouches[0] || event.touches[0];
+            }
             var x = touch.clientX - startX;
             var y = touch.clientY - startY;
             var threshold = 100;
@@ -173,13 +198,13 @@
             }
 
             if (Math.abs(x) < threshold) {
-                nudge(element, deg);
+                nudge(element);
             } else {
                 lovehate(element);
             }
         }
 
-        function nudge(element, deg) {
+        function nudge(element) {
             if (!startML) {
                 startML = 0;
             }
