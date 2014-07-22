@@ -1,9 +1,8 @@
 extends ../layout
 
 block content
-  h1#title= title
   .settings-item.center-wrap
-    h4
+    h4.distance
       i.fa.fa-car &nbsp; Distance (km):
     .center.clearfix
       span.left 0
@@ -29,8 +28,10 @@ block content
   .settings-item.center-wrap
     h4 
       i.fa.fa-question &nbsp; How to Use:
-    span.left (1) In the menu, choose "search"
-    span.left (2) Swipe right to like or left to pass!
+    .center
+      span.left (1) In the menu, choose "search"
+      br
+      span.left (2) Swipe right to like or left to pass!
 
   .settings-item.center-wrap
     h4.center

@@ -12,54 +12,63 @@
 
   getdata = {version: '0.0.0'};
 
-  var mybio = {bio: "put my bio"};
+  var socket = io.connect();
+  // hard coded friends for error
   var friends = ['53c75703945748fab4769e23', '53c75703945748fab4769e24'];
 
-  getdata.putMy = function(){
+  // getdata.put = function(){
+
+  //   var prefix = 'my-';
+
+  //   $.ajax({
+  //     url: "/users/my/bio", 
+  //     data: "put my bio",
+  //     type: "PUT"
+  //   }).done(function(result){
+  //     console.log("Put result: ", result);
+  //   });
+  // };
+
+  getdata.get = function(){
 
     var prefix = 'my-';
-    // put fake bio info
-    $.ajax({
-      url: "/users/my/bio", 
-      data: mybio,
-      type: "PUT"
-    }).done(function(result){
-      console.log("Put result: ", result);
+
+    socket.emit('user:info', function(data){
+      if (data.error){
+        console.log('socket error', data.error);
+      }
+      setElements(data.user, prefix);
+      setFriends(data.user.friends, data.user._id);
     });
-  }
-
-  getdata.getMy = function(){
-
-    var prefix = 'my-';
-    // get my profile info
-    $.get('/users/my/bio', function(data){
-      setElements(data, prefix);
-    }, 'JSON');
-    // var socket = io.connect();
-    // socket.emit('user:fields', {id: 'my', fields: 'bio'}, function(data){
-    //   setElements(data, prefix);
-    // });
 
     setPicture('my', prefix);
   };
 
-  getdata.getFriends =function(fids){
+  function setFriends(fids, uid){
     if (!fids){
       fids = friends;
-      console.log('used hard coded friends');
+      console.log('use hard coded friends because no user.friends exist');
     }
 
     fids.forEach(function(fid, i){
 
       var prefix = 'f'+(i+1)+'-';
-
-      $.get('/users/'+fid+'/bio', function(data){
-        setElements(data, prefix);
-      }, 'JSON');
-
       setPicture(fid, prefix);
+
+      if ('user.friends havent logged in'){
+        fid = uid || 'couldnt get my id either';
+        console.log('use my data for all 3 because friends havent logged in', fid);
+      }
+
+      socket.emit('user:info', {id: fid}, function(data){
+        if (data.error){
+          console.log('socket error', data.error);
+        }
+        console.log(data.user);
+        setElements(data.user, prefix);
+      });
     }); 
-  };
+  }
 
   function setPicture(fid, prefix){
     if (!fid) fid = 'my';
@@ -75,14 +84,28 @@
     }
   }
 
-  // finds html class names that match the json keys
-  function setElements(json, prefix){
-    for (var key in json){
+  // finds html class names that match the user data keys
+  function setElements(user, prefix){
+    //console.log("socket data", data);
+    var d = new Date();
+    var age = parseInt((d.getTime() - Date.parse(user.facebook.birthday))/1000/60/60/24/365.25);
+
+    console.log(user);
+
+    var data = {
+      uid: user._id,
+      name: user.name,
+      bio: user.bio ||　user.facebook.bio,
+      gender: user.gender || user.facebook.gender,
+      age: age
+    };
+
+    for (var key in data){
       var my = prefix || '';
       var elements = document.getElementsByClassName(my+key);
       if (elements){
         for (var i=0; i < elements.length; i++){
-          setElement(elements[i], validator.toString(json[key]));
+          setElement(elements[i], validator.toString(data[key]));
         }
       } else {
         console.log("document doesn't have elments for: ", my+key);

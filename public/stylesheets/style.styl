@@ -6,6 +6,7 @@ $fontSize = 16px
 $width = 320px
 $widthInner = 310px
 $fbColor = #3b5998
+$red = #B1103C
 
 body
   padding 0
@@ -19,6 +20,15 @@ body
   font-weight: normal
   font-size: $fontSize
   overflow: hidden
+
+#content
+  width: 640px
+  margin: 0 auto
+  background: #EEEEEE
+  padding: 15px 60px
+  @media screen and (max-width: 640px)
+    width: $width
+    padding: 0
 
 img 
   margin: 0
@@ -42,7 +52,7 @@ h1
   text-align: center
   box-sizing: border-box
   font-size: 17px
-  font-weight: bold
+  font-weight: normal
   color: black
   margin: 0
   padding: 0
@@ -65,6 +75,9 @@ header
 .settings-item
   input[type="range"]
     width: $widthInner*0.7
+  h4.distance
+    margin: 0
+    padding-top: 15px
 
 .card
   width: $widthInner
@@ -228,16 +241,28 @@ ul#photos
     margin: 0 35px
     border-radius: 60px
     height: 60px
-    line-height: 60px
     width: 60px
     padding: 0
-    vertical-align: middle
+    span, i
+      display: inline-block
+      line-height: 60px
+      vertical-align: middle
 
 
 .pure-button-secondary 
   background-color: rgb(223, 117, 20)
   color: #fff
 
+.passBtn
+  font-size: 16px
+  span
+    margin-top: -3px
+
+.likeBtn
+  background: white
+  i
+    margin-top: 2px
+    color: $red
 
 .clearfix:after 
   content: "."
@@ -291,13 +316,35 @@ a.center
 
 
 .titlehead
-  font-size: 30px
+  font-size: 18px
   color: white
-  height: 40px
-  background-color: red
+  height: 36px
+  background-color: $red
+  h1
+    line-height: 36px
+    vertical-align: top
 
 .addbutton 
   margin-right: 10px
   font-size: 15px
-  color: red
+  color: $red
+
+#nav
+  background: $red
+  //border: 1px solid darkgray
+  width: 100%
+  ul
+    margin: 0 auto
+    padding: 8px 0
+    width: 640px
+    @media screen and (max-width: 640px)
+      width: 320px
+    li
+      width: 106px
+      text-align: center
+      a
+        color: white
+        font-weight: normal
+        font-size: 13px
+    
 

@@ -1,25 +1,17 @@
 extends ../layout
 
-block content
-  header.clearfix
-    #menuRight.menu
-      span
-        i.fa.fa-th.fa-2x
-    #menuLeft.menu
-      span#search
-        i.fa.fa-search.fa-2x
-      form#searchForm.pure-form
-        input#search(type='text', placeholder='search', autofocus='autofocus')
-    .center-wrap
-      h1#header.center Reaction　&nbsp;
-        i.fa.fa-bomb
+block content    
   .center-wrap
     .sidebyside.center
-      button.pure-button.pure-button-secondary pass
-      button.pure-button.pure-button-primary
-        i.fa.fa-heart.fa-3x(style="margin-top: 8px; color: white;")
+      button.pure-button.pure-button-secondary.passBtn
+        span pass
+      button.pure-button.pure-button-primary.likeBtn
+        i.fa.fa-heart.fa-3x
   #container.center-wrap
     ul#photos.center
       li#loading(style='width: 320px; height: 320px; background: gray url(\'/images/load.gif\') no-repeat center center;')
+  //- script(type='text/javascript', src='/scripts/dragdrop.js')
+block script
   script(type='text/javascript', src='/scripts/dragdrop.js')
-
+  script.
+    dragdrop.init();
