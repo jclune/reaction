@@ -1,7 +1,6 @@
 extends ../layout
 
 block content
-  h1#title= title
   .center-wrap
     ul.card.center.boxShadow
       li.my
@@ -10,23 +9,31 @@ block content
           span.left.profile
             .clearfix
               span.left
-                h5.my-name.name Name
+                h5.my-name.name
               span.left
                 h5 ,&nbsp;
               span.left
-                h5.my-age.age Age
-            h5.my-bio.bio      
+                h5.my-age.age
+              span.left
+                h5 ,&nbsp;
+              span.left
+                h5.my-gender.gender
+            h5.my-bio.bio  
       li.f1
         .clearfix
           img.left.f1-picture.picture
           span.left.profile
             .clearfix
               span.left
-                h5.f1-name.name Name
+                h5.f1-name.name
               span.left
                 h5 ,&nbsp;
               span.left
-                h5.f1-age.age Age
+                h5.f1-age.age
+              span.left
+                h5 ,&nbsp;
+              span.left
+                h5.f1-gender.gender
             h5.f1-bio.bio
       li.f2
         .clearfix
@@ -34,9 +41,17 @@ block content
           span.left.profile
             .clearfix
               span.left
-                h5.f2-name.name Name
+                h5.f2-name.name
               span.left
                 h5 ,&nbsp;
               span.left
-                h5.f2-age.age Age
+                h5.f2-age.age
+              span.left
+                h5 ,&nbsp;
+              span.left
+                h5.f2-gender.gender
             h5.f2-bio.bio  
+block script
+  script(type='text/javascript', src='/scripts/getdata.js')
+  script.
+    getdata.get();
