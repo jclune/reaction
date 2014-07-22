@@ -14,9 +14,7 @@ router.get('/chatRoom/:roomId', function(req, res) {
 });
 
 router.get('/chatRoomList', function(req, res) {
-  // get roomIdList from user._id
-  var roomIdList = ['room1', 'room2', 'room3'];
-  res.render('main/chatRoomList', { title: 'Chat Room List', roomIdList: roomIdList});
+  res.render('main/chatRoomList', { title: 'Chat Room List'});
 });
 
 router.get('/chooseFriends', function(req, res) {
