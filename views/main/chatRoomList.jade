@@ -9,7 +9,6 @@ block content
   script(src='/socket.io/socket.io.js')  
   script.
     var socket = io();
-
     socket.emit('chatRoomList', function(err, chatRoomList) {
       chatRoomList.forEach(function(chatRoom) {
         socket.emit('memberList', chatRoom._id, function(err, lists) {
