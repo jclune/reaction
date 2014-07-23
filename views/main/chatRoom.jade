@@ -35,8 +35,8 @@ html
           otherMemberList = lists[0];
         }
 
-        console.log('myMemberList: ' + myMemberList);
-        console.log('otherMemberList: ' + otherMemberList);
+        console.log('myMemberList: ', myMemberList);
+        console.log('otherMemberList: ', otherMemberList);
 
         var chatRoomName = '';
         myMemberList.forEach(function(member) {
@@ -47,9 +47,8 @@ html
         });
         $('#title').text(chatRoomName);
       
+        socket.emit('ready');
       });
-
-      var myTeamMemberList;
 
       $('#submit').on('click', function(event) {
         socket.emit('message', $('#message').val());
@@ -57,9 +56,19 @@ html
       })
   
       socket.on('message', function(message) {
-        var li = $('<li> <img src="/users/'
-        + message.userId + '/picture" /><span>'
-        + message.message + '</span></li>');
+        var li = null;
+        myMemberList.forEach(function (member) {
+          if (message.userId == member._id) {
+            li = $('<li style="text-align:left"> <img src="/users/'
+            + message.userId + '/picture" /><span>'
+            + message.message + '</span></li>');
+          }
+        });
+        if (li === null) {
+          li = $('<li style="text-align:right"> <span>'
+          + message.message + '</span><img src="/users/'
+          + message.userId + '/picture" /></li>');
+        }
         $('#conversation').append(li);
         $('html,body').animate({scrollTop: 10000},'fast');
       });
