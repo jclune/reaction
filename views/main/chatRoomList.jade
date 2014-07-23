@@ -8,15 +8,22 @@ block content
   script(src='//code.jquery.com/jquery-1.11.0.min.js')
   script(src='/socket.io/socket.io.js')  
   script.
-    var socket = io('/chatRoomList');
+    var socket = io();
 
-    socket.on('chatRoomList', function(chatRoomList) {
+    socket.emit('chatRoomList', function(err, chatRoomList) {
       chatRoomList.forEach(function(chatRoom) {
-        var li = $('<li><a href="/chatRoom/'
-        + chatRoom._id
-        + '">'
-        + chatRoom._id
-        + '</a></li>');
-        $('#chatRoomList').append(li);
+        socket.emit('memberList', chatRoom._id, function(err, memberList) {
+          if (err) console.log(err);
+          var chatRoomName = '';
+          memberList.forEach(function(member) {
+            chatRoomName += member.name;
+          });
+          var li = $('<li><a href="/chatRoom/'
+          + chatRoom._id
+          + '">'
+          + chatRoomName
+          + '</a></li>');
+          $('#chatRoomList').append(li);
+        });
       });
     });
