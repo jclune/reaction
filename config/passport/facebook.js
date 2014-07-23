@@ -16,20 +16,23 @@ module.exports = function (config) {
         if (err) return done(err);
         if (!user) {
           user = new User();
-          user.created_at = Date.now();
-          user.name = profile.displayName;
-          if (profile.emails) {
-            user.email = profile.emails[0].value;
-          }
-          user.username = profile.username; // ユーザー名
-          user.bio = profile._json.bio || ''; // 自己紹介
-          user.gender = profile.gender || ''; // 性別
-          if (profile._json.birthday) { // 誕生日
-            user.birthday = moment(profile._json.birthday, 'MM/DD/YYYY').toDate();
-          }
           user.provider = 'facebook';
         }
 
+        // なかったら更新する
+        user.created_at = user.created_at || Date.now();
+        if (profile.emails) {
+          user.email = user.email || profile.emails[0].value || '';
+        }
+        user.name = user.name || profile.displayName || '';
+        user.username = user.username || profile.username || ''; // ユーザー名
+        user.bio = user.bio || profile._json.bio || ''; // 自己紹介
+        user.gender = user.gender || profile.gender || ''; // 性別
+        if (profile._json.birthday) { // 誕生日
+          user.birthday = user.birthday || moment(profile._json.birthday, 'MM/DD/YYYY').toDate();
+        }
+
+        // 毎回更新する
         user.facebook = profile._json;
         user.authToken = accessToken;
 
