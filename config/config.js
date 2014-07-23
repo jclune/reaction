@@ -5,7 +5,7 @@ var config = {
     callbackURL: 'http://localhost:3000/auth/facebook/callback'
   },
   mongo: {
-    uri: 'mongodb://localhost/reaction',
+    uri: 'mongodb://reaction:Cyber0gent@kahana.mongohq.com:10022/reaction_dev',
     options: {
       db: {
         native_parser: true
