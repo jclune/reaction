@@ -54,6 +54,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'test')));
 
+if (app.get('env') === 'development') {
+  app.locals.pretty = true;
+}
+
 // Bootstrap passport config
 var passport = require('./config/passport')(app, config);
 expressLivereload(app, config={});

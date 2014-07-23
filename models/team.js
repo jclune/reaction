@@ -74,7 +74,7 @@ TeamSchema.statics.createTeam = function (uid, friends, callback) {
       });
     }
   ], function (err) {
-    if (err) return callback({err: err});
+    if (err) return callback(err);
     var team = new _this({
       members: friends.concat(uid),
       created_by: uid
