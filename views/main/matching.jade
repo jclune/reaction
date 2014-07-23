@@ -8,10 +8,14 @@ block content
       button.pure-button.pure-button-primary.likeBtn
         i.fa.fa-heart.fa-3x
   #container.center-wrap
-    ul#photos.center
-      li#loading(style='width: 320px; height: 320px; background: gray url(\'/images/load.gif\') no-repeat center center;')
+    ul#matches.center
+      //- li#loading(style='width: 320px; height: 320px; background: gray url(\'/images/load.gif\') no-repeat center center;')
   //- script(type='text/javascript', src='/scripts/dragdrop.js')
 block script
   script(type='text/javascript', src='/scripts/dragdrop.js')
   script.
     dragdrop.init();
+
+    //matching
+    var socket =io.connect();
+    var team;
