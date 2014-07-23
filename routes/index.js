@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/chatRoom/:roomId', function(req, res) {
-  res.render('main/chatRoom', { title: 'Chat Room', roomId: req.params.roomId });
+  res.render('main/chatRoom', { userId: req.session.passport.user, roomId: req.params.roomId });
 });
 
 router.get('/chatRoomList', function(req, res) {

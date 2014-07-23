@@ -19,14 +19,38 @@ html
     script.
       var socket = io();
       socket.emit('join room', '#{roomId}');
-      socket.emit('memberList', '#{roomId}', function(err, memberList) {
+
+      var myMemberList = [];
+      var otherMemberList = [];
+      socket.emit('memberList', '#{roomId}', function(err, lists) {
+        
+        lists[0].forEach(function(member) {
+          if (member._id == '#{userId}') {
+            myMemberList = lists[0];
+            otherMemberList = lists[1];
+          }
+        });
+        if (myMemberList.length === 0) {
+          myMemberList = lists[1];
+          otherMemberList = lists[0];
+        }
+
+        console.log('myMemberList: ' + myMemberList);
+        console.log('otherMemberList: ' + otherMemberList);
+
         var chatRoomName = '';
-        memberList.forEach(function(member) {
+        myMemberList.forEach(function(member) {
+          chatRoomName += member.name + ' ';
+        });
+        otherMemberList.forEach(function(member) {
           chatRoomName += member.name + ' ';
         });
         $('#title').text(chatRoomName);
+      
       });
-  
+
+      var myTeamMemberList;
+
       $('#submit').on('click', function(event) {
         socket.emit('message', $('#message').val());
         $('#message').val('');

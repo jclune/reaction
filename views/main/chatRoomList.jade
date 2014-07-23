@@ -12,12 +12,16 @@ block content
 
     socket.emit('chatRoomList', function(err, chatRoomList) {
       chatRoomList.forEach(function(chatRoom) {
-        socket.emit('memberList', chatRoom._id, function(err, memberList) {
+        socket.emit('memberList', chatRoom._id, function(err, lists) {
           if (err) console.log(err);
           var chatRoomName = '';
-          memberList.forEach(function(member) {
-            chatRoomName += member.name;
+          lists[0].forEach(function(member) {
+            chatRoomName += member.name + ' ';
           });
+          lists[1].forEach(function(member) {
+            chatRoomName += member.name + ' ';
+          });
+
           var li = $('<li><a href="/chatRoom/'
           + chatRoom._id
           + '">'
