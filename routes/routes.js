@@ -21,6 +21,7 @@ module.exports = exports = function (app, passport) {
 
   app.use('/', require('./index'));
 
+  app.use('/teams', require('./teams'));
 
   app.get('/auth/facebook',
     passport.authenticate('facebook', {

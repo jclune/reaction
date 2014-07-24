@@ -7,7 +7,8 @@ html
     script(type='text/javascript', src='/jquery/dist/jquery.min.js')
     script(type='text/javascript', src='/jquery.easing/js/jquery.easing.min.js')
     script(type='text/javascript', src='/validator-js/validator.js')
-    link(rel='stylesheet', href='/purecss/src/base/css/base.css')
+    script(type='text/javascript', src='/socket.io/socket.io.js')
+    link(rel='stylesheet', href='/pure/pure-min.css')
     link(rel='stylesheet', href='/fontawesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     != LRScript
@@ -21,9 +22,7 @@ html
         li.left
           a(href="/editProfile") Profile 
         li.left
-          a(href="/groupProfile") Team 
-        li.left
-          a(href="/chooseFriends") Make Team
+          a(href="/teams") Team
         li.left
           a(href="/chatRoomList") Chat
     h1.titlehead#title= title

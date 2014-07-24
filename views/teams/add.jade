@@ -1,0 +1,63 @@
+extends ../layout
+block script
+  script(src='/knockoutjs/dist/knockout.js')
+  style.
+    i.checkbox {
+      color: gray;
+    }
+    i.checkbox.checked {
+      color: darkblue;
+    }
+  script.
+    var socket = io.connect();
+    function ViewModel() {
+      var self = this;
+      self.friends = ko.observableArray();
+      self.selectedFriends = ko.observableArray();
+      self.selectFriend = function(el) {
+        if(self.selectedFriends.indexOf(el) === -1) {
+          if(self.selectedFriends().length < 2) {
+            self.selectedFriends.push(el);
+          }
+        } else {
+          self.selectedFriends.remove(el);
+        }
+      };
+      self.createButtonActived = ko.observable(false);
+      self.createTeam = function() {
+        if(self.selectedFriends().length !== 2)return;
+        self.createButtonActived(true);
+        socket.emit('team:create', {
+          friends: self.selectedFriends().map(function(f) {return f._id})
+        }, function(err, team) {
+          if(err) {
+            self.createButtonActived(false);
+            alert(err);
+          } else {
+            location.href='/teams/' + team._id;
+          }
+        });
+      }
+    }
+    var model = new ViewModel();
+    ko.applyBindings(model);
+
+    var socket = io.connect();
+    socket.emit('user:friends', function(err, friends) {
+      if(err) return;
+      model.friends(friends);
+    });
+block content
+  h1 Choose 2 for your gokon team!
+  .pure-g
+    .pure-g(data-bind='foreach:selectedFriends', style='height:60px')
+      img(data-bind='attr: {src: "/users/"+$data._id+"/picture"}', style='height:50px;width:auto;margin-left:5px')
+    button.pure-button.pure-button-primary(data-bind='click:$root.createTeam, disable: $root.createButtonActived, visible:$root.selectedFriends().length===2', style='display:none; margin:auto 20px auto auto') チーム作成
+  .pure-g.list2(data-bind='foreach: friends')
+    .pure-u-1.clearfix(data-bind='click: $root.selectFriend')
+      h5.left
+        | &nbsp;
+        i.fa.checkbox(data-bind='css:$root.selectedFriends.indexOf($data)==-1?"fa-circle":"fa-check-circle checked"')
+        | &nbsp;
+      img.left(data-bind='attr: {src: "/users/"+$data._id+"/picture"}')
+      h5.left(data-bind='text:$data.name')

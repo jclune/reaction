@@ -1,0 +1,68 @@
+extends ../layout
+block script
+  script(src = '/async/lib/async.js')
+  script(src='/knockoutjs/dist/knockout.js')
+  script.
+    var socket = io.connect();
+    function ViewModel() {
+      var self = this;
+      self.teams = ko.observableArray();
+      self.selectTeam = function(team) {
+        location.href='/teams/' + team._id;
+      };
+    }
+    var model = new ViewModel();
+    ko.applyBindings(model);
+
+    socket.emit('team:all', function(err, teams) {
+      async.eachSeries(teams, function(team, next) {
+        async.map(team.members, function(memberId,next1) {
+          socket.emit('user:info', {
+            id: memberId
+          }, function(err, member) {
+            next1(err, member);
+          });
+        }, function(err, members) {
+          team.members = members;
+          model.teams.push(team);
+          next(err);
+        });
+      }, function(err) {
+        if(err){
+          console.log('ERR', err);
+        }
+      });
+    });
+    socket.on('team:created', function(teamId) {
+      socket.emit('team:info', function(err, team) {
+        async.map(team.members, function(memberId,next1) {
+          socket.emit('user:info', {
+            id: memberId
+          }, function(err, member) {
+            next1(err, member);
+          });
+        }, function(err, members) {
+          team.members = members;
+          model.teams.push(team);
+          next(err);
+        });
+      }, function(err) {
+        if(err){
+          console.log('ERR', err);
+        }
+      });
+    });
+    socket.on('team:removed', function(teamId) {
+      model.teams.remove(function(item) {
+        return item._id === teamId;
+      });
+    });
+block content
+  .pure-g(style='height: 60px;')
+    button.pure-button.pure-button-primary(style='margin:auto 20px auto auto', onclick='location.href="/teams/add"') チーム作成
+  .pure-g.list2(data-bind='foreach: teams')
+    .pure-u-1.clearfix(data-bind='click:$root.selectTeam', style='margin:5px;white-space: nowrap;overflow:hidden')
+      .pure-g(data-bind='foreach: $data.members', style='display:inline-block;margin-right:10px')
+        img.left(data-bind='attr: {src: "/users/"+$data._id+"/picture"}')
+      .pure-u-2-4(data-bind='foreach: $data.members', style='display:inline-block;')
+        div(data-bind='text: $data.name')
