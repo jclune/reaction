@@ -23,7 +23,6 @@ li {
 .titlehead {
   font-size: 10px;
   color: #fff;
-  height: 30px;
   background-color: #b1103c;
 }
 img {
@@ -31,9 +30,6 @@ img {
   width: 40px;
   height: 40px;
   margin: 0px;
-}
-div {
-  margin: 50px;
 }
 body {
   padding: 0;

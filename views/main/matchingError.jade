@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  #container.center-wrap.content
+    a.href(href="/teams")
+      i.fa.fa-users.fa-2x
+      span Please choose a team before finding matches!
+
+block script
+  script.
+    var menu = document.getElementById('matching');
+    if (menu){
+      menu.className = menu.className + " menu-item-divided pure-menu-selected";
+    }

@@ -20,7 +20,7 @@
     var ul = document.getElementById("matches");
     //start out in full screen
     var width = 310;
-    var marginLeft = 5;
+    var marginLeft = 0;
 
     var socket = io.connect();
     var teamId;
@@ -203,19 +203,22 @@
         var y = touch.clientY - startY;
         element.style.marginLeft = (startML + x) + "px";
 
-        var threshold = 20;
+        //disables scroll
+        event.preventDefault();
+        var threshold = 0;
         if (Math.abs(x) > threshold) {
-            event.preventDefault();
+            //event.preventDefault();
             element.style.marginTop = (startMT + y) + "px";
             var deg = Math.atan(y / x) * 180 / Math.PI;
-            deg = deg / 4;
-            if (deg < -20) {
-                deg = -20;
-            } else if (deg > 20) {
-                deg = 20;
+            var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+            deg = deg*z / 200;
+            if (deg < -30) {
+                deg = -30;
+            } else if (deg > 30) {
+                deg = 30;
             }
             element.style.webkitTransform = "rotate(" + deg + "deg)";
-            var z = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
             z = z / width / 2 + 1;
             //console.log("scale(" + z + ", " + z + ")");
             element.style.webkitTransform = "scale(" + z + ", " + z + ")" + " rotate(" + deg / -4 + "deg)";

@@ -56,3 +56,8 @@ block script
   script.
     console.log('matching');
     getdata.get();
+
+    var menu = document.getElementById('groupProfile');
+    if (menu){
+      menu.className = menu.className + " menu-item-divided pure-menu-selected";
+    }

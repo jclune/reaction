@@ -1,82 +1,82 @@
-doctype
-html
-  head
-    meta(name="viewport" content="width=device-width, user-scalable=no")
-    link(rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css")
-    link(rel="stylesheet" href="/stylesheets/chatRoom.css")
-  body
-    h1.titlehead#title
-  
-    ul#conversation
+extends ../layout
+   
+block headLinks
+  link(rel="stylesheet" href="/stylesheets/chatRoom.css")
 
-    form.pure-form
-      input#message(style='display: inline-block')
-      button#submit(type='submit', class='pure-button pure-button-primary') 送信
-  
-    script(src='//code.jquery.com/jquery-1.11.0.min.js')
-    script(src='/socket.io/socket.io.js')
+block content
+  h1.titlehead#title
 
-    script.
-      var socket = io();
-      socket.emit('join room', '#{roomId}');
+  ul#conversation
 
-      var myMemberList = [];
-      var otherMemberList = [];
+  form.pure-form
+    input#message(style='display: inline-block')
+    button#submit(type='submit', class='pure-button pure-button-primary') 送信
 
-      console.log('test');
-      socket.emit('memberList', '#{roomId}', function(err, lists) {
-        console.log('messages', err, lists);
-        
-        lists[0].forEach(function(member) {
-          if (member._id == '#{userId}') {
-            myMemberList = lists[0];
-            otherMemberList = lists[1];
-          }
-        });
-        if (myMemberList.length === 0) {
-          myMemberList = lists[1];
-          otherMemberList = lists[0];
-        }
+block script
+  //- script(src='//code.jquery.com/jquery-1.11.0.min.js')
+  //- script(src='/socket.io/socket.io.js')
 
-        console.log('myMemberList: ', myMemberList);
-        console.log('otherMemberList: ', otherMemberList);
+  script.
+    var socket = io();
+    socket.emit('join room', '#{roomId}');
 
-        var chatRoomName = '';
-        myMemberList.forEach(function(member) {
-          chatRoomName += member.name + ' ';
-        });
-        otherMemberList.forEach(function(member) {
-          chatRoomName += member.name + ' ';
-        });
-        $('#title').text(chatRoomName);
+    var myMemberList = [];
+    var otherMemberList = [];
+
+    console.log('test');
+    socket.emit('memberList', '#{roomId}', function(err, lists) {
+      console.log('messages', err, lists);
       
-        socket.emit('ready');
-      });
-
-      $('#submit').on('click', function(event) {
-        socket.emit('message', $('#message').val());
-        $('#message').val('');
-        return false;
-      })
-  
-      socket.on('message', function(message) {
-        console.log(myMemberList);
-
-        var li = null;
-        myMemberList.forEach(function (member) {
-          if (message.userId == member._id) {
-            li = $('<li style="text-align:left"><img src="/users/'
-            + message.userId + '/picture" /><span class="test">'
-            + message.message + '</span></li>');
-          }
-        });
-        if (li === null) {
-          li = $('<li style="text-align:right"><span class="test2">'
-          + message.message + '</span><img src="/users/'
-          + message.userId + '/picture" /></li>');
+      lists[0].forEach(function(member) {
+        if (member._id == '#{userId}') {
+          myMemberList = lists[0];
+          otherMemberList = lists[1];
         }
-
-        $('#conversation').append(li);
-
-        $('html,body').animate({scrollTop: 10000},'fast');
       });
+      if (myMemberList.length === 0) {
+        myMemberList = lists[1];
+        otherMemberList = lists[0];
+      }
+
+      console.log('myMemberList: ', myMemberList);
+      console.log('otherMemberList: ', otherMemberList);
+
+      var chatRoomName = '';
+      myMemberList.forEach(function(member) {
+        chatRoomName += member.name + ' ';
+      });
+      otherMemberList.forEach(function(member) {
+        chatRoomName += member.name + ' ';
+      });
+      $('#title').text(chatRoomName);
+    
+      socket.emit('ready');
+    });
+
+    $('#submit').on('click', function(event) {
+      socket.emit('message', $('#message').val());
+      $('#message').val('');
+      return false;
+    })
+
+    socket.on('message', function(message) {
+      console.log(myMemberList);
+
+      var li = null;
+      myMemberList.forEach(function (member) {
+        if (message.userId == member._id) {
+          li = $('<li style="text-align:left"><img src="/users/'
+          + message.userId + '/picture" /><span class="test">'
+          + message.message + '</span></li>');
+        }
+      });
+      if (li === null) {
+        li = $('<li style="text-align:right"><span class="test2">'
+        + message.message + '</span><img src="/users/'
+        + message.userId + '/picture" /></li>');
+      }
+
+      $('#conversation').append(li);
+
+      $('html,body').animate({scrollTop: 10000},'fast');
+    });

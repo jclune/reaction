@@ -8,25 +8,49 @@ html
     script(type='text/javascript', src='/jquery.easing/js/jquery.easing.min.js')
     script(type='text/javascript', src='/validator-js/validator.js')
     script(type='text/javascript', src='/socket.io/socket.io.js')
+    script(type='text/javascript', src='/scripts/main.js')
     link(rel='stylesheet', href='/pure/pure-min.css')
     link(rel='stylesheet', href='/fontawesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     != LRScript
+    block headLinks
   body
-    #nav
-      ul.clearfix
-        li.left
-          a(href="/matching") Home
-        li.left
-          a(href="/settings") Settings 
-        li.left
-          a(href="/editProfile") Profile 
-        li.left
-          a(href="/teams") Team
-        li.left
-          a(href="/chatRoomList") Chat
-    h1(style='white-space:nowrap;').titlehead#title= title
-    #content                        
-      block content
+    #layout
+      a#menuLink.menu-link(href='#menu')
+        i.fa.fa-bars.fa-2x
+      a#chatLink.chat-link(href='/chatRoomList')
+        i.fa.fa-wechat.fa-2x
+      #menu
+        .pure-menu.pure-menu-open
+          a.pure-menu-heading(href='#') Reaction
+          ul
+            li#matching
+              a(href="/matching")
+                i.fa.fa-home.fa-2x
+                span Matching
+            li#settings
+              a(href="/settings") 
+                i.fa.fa-cog.fa-2x                
+                span Settings 
+            li#editProfile
+              a(href="/editProfile")
+                i.fa.fa-user.fa-2x
+                span Profile  
+            li#teams
+              a(href="/teams")
+                i.fa.fa-users.fa-2x
+                span Teams
+            li#groupProfile
+              a(href="/groupProfile")
+                i.fa.fa-th-list.fa-2x
+                span Current Team
+            li#chatRoomListMenu
+              a(href="/chatRoomList")
+                i.fa.fa-wechat.fa-2x
+                span Chat
+      #main
+        h1(style='white-space:nowrap;').titlehead#title= title
+        #content                        
+          block content
   footer
     block script

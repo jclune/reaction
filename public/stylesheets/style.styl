@@ -25,10 +25,10 @@ body
   width: 640px
   margin: 0 auto
   background: #EEEEEE
-  padding: 15px 60px
+  padding: 57px 60px 0 60px
   @media screen and (max-width: 640px)
     width: $width
-    padding: 0
+    padding: 57px 0 0 0
 
 img 
   margin: 0
@@ -81,11 +81,11 @@ header
 
 .card
   width: $widthInner
-  height: $widthInner + 5
+  height: $widthInner
   background-color: rgba(255,255,255,0.8)
-  border: 1px solid black
+  border: 1px solid gray
   border-radius: 2px
-  padding: 5px 0 0 0
+  padding: 5px 0
   img
     height: 100px
     width: 100px
@@ -172,41 +172,42 @@ span.glyphicon-search
   font-size: 2em
 
 
-$shrink = shrink
-$enlarge = enlarge
+// $shrink = shrink
+// $enlarge = enlarge
 
-@keyframes shrink {
-  from {
-    width: 310px
-    height: 310px
-  }
-  to {
-    width: 96.66667px
-    height: 96.66667px
-  }
-}
-@keyframes enlarge {
-  from {
-    width: 96.66667px
-    height: 96.66667px
-  }
-  to {
-    width: 310px
-    height: 310px
-  }
-}
+// @keyframes shrink
+//   from
+//     width: 310px
+//     height: 310px
+  
+//   to
+//     width: 96.66667px
+//     height: 96.66667px
+  
+
+// @keyframes enlarge
+//   from
+//     width: 96.66667px
+//     height: 96.66667px
+  
+//   to
+//     width: 310px
+//     height: 310px
+  
+
 
 ul,
 li 
   list-style: none
   padding: 0
 
-ul#photos 
-  width: $width
+ul#matches 
+  width: $width - 8
   position: relative
   z-index: 10
+  margin-left: 3px
 
-ul#photos
+ul#matches
   li
     animation-name: $enlarge
     animation-duration: 1s
@@ -222,34 +223,8 @@ ul#photos
     height: $widthInner
     border-radius: 2px
     overflow: hidden
-    background-color: gray
+    background-color: white
     margin-bottom: 10px
-    margin-left: 0
-
-ul#photos.thumbnails
-  li
-    animation-name: $shrink
-    animation-duration: 1s
-    animation-iteration-count: 1
-    animation-timing-function: ease-out
-    -webkit-animation-name: $shrink
-    -webkit-animation-duration: 1s
-    -webkit-animation-iteration-count: 1
-    -webkit-animation-timing-function: ease-out
-    width: ($width/3) - 10
-    height: ($width/3) - 10
-    margin: 0 5px 10px 5px
-    margin-left: 5px
-
-
-ul#photos
-  img 
-    display: block
-    max-height: 100%    
-    width: auto
-    height: auto
-    margin: auto auto
-    vertical-align: middle   
 
 .sidebyside
   button 
@@ -331,13 +306,13 @@ a.center
 
 
 .titlehead
+  position: fixed
   font-size: 18px
   color: white
-  height: 36px
+  height: 48px
   background-color: $red
-  h1
-    line-height: 36px
-    vertical-align: top
+  line-height: 48px
+  vertical-align: middle
 
 .addbutton 
   margin-right: 10px
@@ -382,3 +357,130 @@ a.center
         color: white
         font-weight: normal
         font-size: 13px
+
+#layout,
+#menu,
+.menu-link
+  -webkit-transition: all 0.2s ease-out
+  -moz-transition: all 0.2s ease-out
+  -ms-transition: all 0.2s ease-out
+  -o-transition: all 0.2s ease-out
+  transition: all 0.2s ease-out
+
+/*
+This is the parent `<div>` that contains the menu and the content area.
+*/
+$sideMenu = 200px
+
+#layout
+  position: relative
+  padding-left: 0
+
+#layout.active
+  position: relative
+  left: $sideMenu
+
+#layout.active #menu
+  left: $sideMenu
+  width: $sideMenu
+
+#layout.active .menu-link
+  left: $sideMenu
+
+#menu
+  margin-left: -1*$sideMenu
+  width: $sideMenu
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  z-index: 1000
+  background: #191818
+  overflow-y: auto
+  -webkit-overflow-scrolling: touch
+
+#menu a
+  color: $red
+  border: none
+  padding: 0.6em 0 0.6em 0.6em
+  i
+    width: 30px
+    text-align: center
+    font-size: 1.2em
+    color: white
+    padding-right: 0.6em
+
+#menu .pure-menu,
+#menu .pure-menu ul
+  border: none
+  background: transparent
+
+#menu .pure-menu ul,
+#menu .pure-menu .menu-item-divided
+  border-top: 1px solid #333
+
+#menu .pure-menu li a:hover,
+#menu .pure-menu li a:focus
+  background: #333
+
+#menu .pure-menu li.clicked a,
+#menu .pure-menu li.clicked a:hover,
+#menu .pure-menu li.clicked a:focus
+  background: $red
+  color: white
+
+#menu .pure-menu-selected,
+#menu .pure-menu-heading
+  background: $red
+
+#menu .pure-menu-selected a
+  color: #fff
+
+#menu .pure-menu-heading
+  font-size: 110%
+  color: #fff
+  margin: 0
+
+.menu-link, .chat-link
+  position: fixed
+  display: block
+  top: 0
+  left: 0 
+  background: #000
+  background: $red
+  font-size: 10px
+  z-index: 10
+  width: 2em
+  height: 2em
+  padding: 1.4em 1.6em
+  i
+    color: white  
+.chat-link
+  left: $width - 52
+
+.menu-link:hover,
+.menu-link:focus,
+.chat-link:hover,
+.chat-link:focus
+  background: #000
+  
+@media (min-width: 48em)
+  
+  #layout
+    padding-left: $sideMenu /* left col width "#menu" */
+    left: 0
+  
+  #menu
+    left: $sideMenu
+  
+  .menu-link
+    position: fixed
+    left: $sideMenu
+    display: none
+  .chat-link
+    position: fixed
+    left: $sideMenu
+    display: none
+  
+  #layout.active .menu-link
+    left: $sideMenu
