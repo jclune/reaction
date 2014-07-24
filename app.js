@@ -10,8 +10,6 @@ var mongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 var config = require('./config/config');
 
-var expressLivereload = require('express-livereload');
-
 var app = express();
 
 require('./config/mongoose')(app, config);
@@ -60,7 +58,10 @@ if (app.get('env') === 'development') {
 
 // Bootstrap passport config
 var passport = require('./config/passport')(app, config);
-expressLivereload(app, config={});
+
+if (app.get('env') === 'development') {
+  require('express-livereload')(app, config = {});
+}
 
 // Bootstrap routes
 require('./routes/routes')(app, passport);

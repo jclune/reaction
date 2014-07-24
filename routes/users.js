@@ -4,6 +4,10 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var User = mongoose.model('User');
 var _s = require('underscore.string');
+var NodeCache = require("node-cache");
+var myCache = new NodeCache({ stdTTL: 3600, checkperiod: 120 });
+var async = require('async');
+var request = require('request');
 
 /* GET users listing. */
 router.get('/', function (req, res) {
@@ -19,11 +23,53 @@ router.get('/:id([0-9a-f]{24}|my)/picture', function (req, res) {
     uid = req.user.id;
   }
 
-  User.findById(new ObjectId(uid), 'facebook.id', function (err, u) {
-    if (err) throw err;
-    if (!u || !u.facebook || !u.facebook.id) return res.send(404);
-    return res.redirect('http://graph.facebook.com/' + u.facebook.id + '/picture');
+  var options = ['redirect=false'];
+  if (req.query.w || req.query.h) {
+    options.push('width=' + (req.query.w || req.query.h));
+    options.push('height=' + (req.query.h || req.query.w));
+  }
+
+  var query = '';
+  if (options.length > 0) {
+    query = "?" + options.join('&');
+  }
+
+  var key = uid + ":" + query;
+
+  async.waterfall([
+    function (next) {
+      myCache.get(key, next);
+    },
+    function (value, next) {
+      if (value[key] && value[key].url) return next(null, value[key].url);
+      User.findById(new ObjectId(uid), 'facebook.id', function (err, u) {
+        if (err) next(err);
+        if (!u || !u.facebook || !u.facebook.id) return next('404');
+        request.get({
+          url:'http://graph.facebook.com/' + u.facebook.id + '/picture' + query,
+          json:true
+        }, function (error, response, body) {
+          if (error) return next(error);
+          if (response.statusCode == 200) {
+            if (body.data && body.data.url) {
+              var url = body.data.url;
+              myCache.set(key, {url: url});
+              return next(null, url);
+            } else {
+              return next('Not found');
+            }
+          } else {
+            return next(response.statusCode);
+          }
+        });
+      });
+    }
+  ], function (err, url) {
+    if (err) return res.send(err);
+    return res.redirect(url);
   });
+
+
 });
 
 /**
