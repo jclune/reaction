@@ -1,19 +1,9 @@
 module.exports = exports = function (app, passport) {
 
   var urls = [
-    '/',
-    '/auth/facebook',
-    '/auth/facebook/callback',
-    '/chatRoom',
-    '/chatRoomList',
-    '/chooseFriends',
-    '/editProfile',
-    '/friendList',
-    '/groupProfile',
     '/login',
-    '/login/callback',
-    '/matching',
-    '/settings'];
+    '/login/callback'
+  ];
   var authFilter = require('../filter/auth')({
     allows: urls
   });
