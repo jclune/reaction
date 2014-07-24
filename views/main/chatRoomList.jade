@@ -13,20 +13,29 @@ block content
       chatRoomList.forEach(function(chatRoom) {
         socket.emit('memberList', chatRoom._id, function(err, lists) {
           if (err) console.log(err);
-          var chatRoomName = '';
+          var team1 = '';
+          var team2 = '';
           lists[0].forEach(function(member) {
-            chatRoomName += member.name + ' ';
+            team1 += '<img width=40px height=40px src="/users/' + member._id + '/picture/" >';
           });
           lists[1].forEach(function(member) {
-            chatRoomName += member.name + ' ';
+            team2 += '<img width=40px height=40px src="/users/' + member._id + '/picture/" >';
           });
 
-          var li = $('<li><a href="/chatRoom/'
-          + chatRoom._id
-          + '">'
-          + chatRoomName
-          + '</a></li>');
+          var li = $('<li><div id="' 
+          + chatRoom._id 
+          + '" class="container pure-button button-room"><div class="team1">'
+          + team1
+          + '</div><div class="team2">'
+          + team2
+          + '</div></div>'
+          + '</li>');
           $('#chatRoomList').append(li);
         });
       });
+    });
+
+    $('ul').on('click', 'li .container', function(event) {
+      var roomId = $(this).attr('id');
+      window.location.replace('/chatRoom/' + roomId);
     });
