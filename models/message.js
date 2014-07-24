@@ -3,10 +3,14 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var MessageSchema = new Schema({
-  room: {type: ObjectId, ref: 'Room'},
-  user: {type: ObjectId, ref: 'User'},
-  message: {type: String, default: ''},
-  created_at: {type: Date}
+  room: {type: ObjectId, ref: 'Room', required: true},
+  user: {type: ObjectId, ref: 'User', required: true},
+  message: {type: String, default: '', required: true},
+  created_at: {type: Date, default: Date.now(), required: true}
+});
+
+MessageSchema.post('save', function(message) {
+  require('../lib/noti').newMessage(message._id);
 });
 
 mongoose.model('Message', MessageSchema);

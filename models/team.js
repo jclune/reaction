@@ -5,8 +5,8 @@ var async = require('async');
 var _ = require('underscore');
 
 var SubTeamSchema = new Schema({
-  team: {type: ObjectId, ref: 'Team'},
-  created_by: {type: ObjectId, ref: 'User'},
+  team: {type: ObjectId, ref: 'Team', required: true},
+  created_by: {type: ObjectId, ref: 'User', required: true},
   created_at: {type: Date, default: Date.now()}
 });
 
@@ -14,8 +14,8 @@ var TeamSchema = new Schema({
   members: [
     {type: ObjectId, ref: 'User'}
   ],
-  created_by: {type: ObjectId, ref: 'User'},
-  created_at: {type: Date, default: Date.now()},
+  created_by: {type: ObjectId, ref: 'User', required: true},
+  created_at: {type: Date, default: Date.now(), required: true},
   favorites: [SubTeamSchema],
   dislikes: [SubTeamSchema]
 });
@@ -95,5 +95,9 @@ TeamSchema.statics.createTeam = function (uid, friends, callback) {
 TeamSchema.path('members').validate(function (members) {
   return members.length === 3;
 }, 'Size of members must be 3');
+
+TeamSchema.post('save', function(team) {
+  require('../lib/noti').newTeam(team._id);
+});
 
 mongoose.model('Team', TeamSchema);

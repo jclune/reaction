@@ -6,7 +6,11 @@ var RoomSchema = new Schema({
   teams: [
     {type: ObjectId, ref: 'Team'}
   ],
-  created_at: {type: Date}
+  created_at: {type: Date, default: Date.now()}
+});
+
+RoomSchema.post('save', function(room) {
+  require('../lib/noti').newRoom(room._id);
 });
 
 mongoose.model('Room', RoomSchema);

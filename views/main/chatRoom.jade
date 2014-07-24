@@ -18,7 +18,9 @@ block script
 
   script.
     var socket = io();
-    socket.emit('join room', '#{roomId}');
+    socket.on('connect', function() {
+      socket.emit('join room', '#{roomId}');
+    });
 
     var myMemberList = [];
     var otherMemberList = [];
