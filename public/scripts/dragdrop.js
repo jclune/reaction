@@ -17,80 +17,120 @@
 
     dragdrop = {version: '0.0.0'};
 
-    var ul = document.getElementById("photos");
+    var ul = document.getElementById("matches");
     //start out in full screen
     var width = 310;
     var marginLeft = 5;
 
-    //-----------------GET THE PHOTOS!-----------------
-    var options = {};
-    options.url = 'https://api.flickr.com/services/rest/';
-    options.method = 'GET';
-    options.params = {
-        method: 'flickr.photos.search',
-        per_page: 15,
-        text: 'bikini',
-        api_key: '3e53c0f0f82059213050c4e8f2ad111d',
-        format: 'json',
-        nojsoncallback: 1
-    };
+    var socket = io.connect();
 
-    function requestSearch(options) {
-        console.log("start ajax with search: " + options.params.text);
-        $.ajax({
-            type: options.method,
-            url: options.url,
-            data: options.params,
-        }).done(function(data) {
-            getPhotos(data);
-        }).error(function() {
-            var h2 = document.createElement("h2");
-            h2.innerHTML = "API error";
-            document.getElementById("container").appendChild(h2);
+
+
+    // -------------- GET THE TEAM DATA ----------------------------
+
+    function getTeams(){
+        console.log("start getting teams");
+        socket.emit('team:all', function(err, data){
+            if (err){
+                console.log('socket error', err);
+            } else {
+                data.forEach(function(team, i){
+                    addTeam(team, i);
+                });
+            }
+        });
+    }
+
+    function addTeam(team, i){
+        console.log("add team #"+i, team);
+        var li = document.createElement("li");
+        li.className = "card boxShadow";
+        ul.appendChild(li);
+        //must have marginLeft defined
+        //console.log(li.style.marginLeft);
+        if (!li.style.marginLeft) {
+            li.style.marginLeft = marginLeft + "px";
+        }
+        if (!li.style.marginTop) {
+            li.style.marginTop = marginLeft + "px";
+        }
+        //console.log(li.style.marginLeft);
+        addListeners(li);
+
+        team.members.forEach( function(user, j){
+            createElements(li, function(div){
+                addUser(div, user, j);
+            });
         });
     }
     
+    function createElements(li, cb){
+        var div = document.createElement("div");
+        div.className = "clearfix";
+        li.appendChild(div);
 
-    var refresh = 0; //counter for first 2 li
-    function getPhotos(data) {
-        // get the photo array and append images. reset if theres an old arrray
-        var photos = data.photos.photo;
-        photos.forEach(function(i) {
-            var img = document.createElement("img");
-            //img.style.width = width + "px";
-            img.src = "http://farm" + i.farm + ".staticflickr.com/" +
-                i.server + "/" + i.id + "_" + i.secret + "_z.jpg";
+        var img = document.createElement("img");
+        img.className = "left picture";
+        div.appendChild(img);
 
-            var li;
-            //append images to first li (to see gray canvas with load bar)   
-            if (refresh++ === 0) {
-                console.log("refresh is " + refresh);
-                li = document.getElementById("loading");
-                li.appendChild(img);
-                li.removeAttribute("style");
-            } else {
-                //console.log("normal li");
-                li = document.createElement("li");
-                ul.appendChild(li);
-                li.appendChild(img);
-            }
-            li.style.height = img.style.height;
-            li.className = li.className + " boxShadow";
+        var span = document.createElement("span");
+        span.className = "left profile";
+        div.appendChild(span);
 
-            //must have marginLeft defined
-            //console.log(li.style.marginLeft);
-            if (!li.style.marginLeft) {
-                li.style.marginLeft = marginLeft + "px";
+        var topline = document.createElement("div");
+        topline.className = "topline clearfix";
+        var s1 = "<span class='left'><h5 class='";
+        var s2 = "'></h5></span>";
+        topline.innerHTML = s1+'name'+s2+s1+'age'+s2+s1+'gender'+s2;
+        span.appendChild(topline);
+
+        var p = document.createElement("p");
+        p.className = "bio";
+        span.appendChild(p);
+
+        cb(div);
+    }
+
+    function addUser(div, uid, j){
+
+        socket.emit('user:info', {id: uid}, function(err, user){
+            console.log('j=',j);
+            if (err){
+              console.log('socket error', err);
             }
-            if (!li.style.marginTop) {
-                li.style.marginTop = marginLeft + "px";
+            else {
+              console.log("member #"+j, user);
+
+              var img = div.getElementsByClassName('picture');
+              img[0].setAttribute('src', '/users/'+validator.toString(uid)+'/picture');
+
+              var d = new Date();
+              var age = parseInt((d.getTime() - Date.parse(user.facebook.birthday))/1000/60/60/24/365.25);
+
+              var data = {
+                name: user.name,
+                bio: user.bio ||　user.facebook.bio,
+                gender: user.gender || user.facebook.gender,
+                age: age
+              };
+
+              for (var className in data){
+                var elements = div.getElementsByClassName(className);
+                console.log("changing element ", elements[0]);
+                console.log("with data ", data[className]);
+                if (elements){
+                    elements[0].innerHTML = validator.toString(data[className]);
+                } else {
+                    console.log("document doesn't have elments for: ", className);
+                }
+              }
             }
-            //console.log(li.style.marginLeft);
-            addListeners(li);
         });
     }
 
-    //-----------------PLAY WITH PHOTOS!-----------------
+
+
+    //-----------------PLAY WITH THE TEAMS!-----------------
 
     var startX;
     var startY;
@@ -259,16 +299,15 @@
 
         //infinite supply of photos
         console.log(ul.children.length);
-        if (ul.children.length === 10) {
-            options.params.per_page = 6;
-            requestSearch(options);
-            console.log("another API");
+        if (ul.children.length <= 1) {
+            getTeams();
+            console.log("another API request");
         }
     }
 
 
     dragdrop.init = function(){
-        requestSearch(options);
+        getTeams();
         buttonListeners();
     };
 
