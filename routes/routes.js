@@ -2,7 +2,9 @@ module.exports = exports = function (app, passport) {
 
   var urls = [
     '/login',
-    '/login/callback'
+    '/login/callback',
+    '/auth/facebook',
+    '/auth/facebook/callback'
   ];
   var authFilter = require('../filter/auth')({
     allows: urls
