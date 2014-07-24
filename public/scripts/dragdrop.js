@@ -23,6 +23,7 @@
     var marginLeft = 5;
 
     var socket = io.connect();
+    var teamId;
 
 
 
@@ -30,14 +31,13 @@
 
     function getTeams(){
         console.log("start getting teams");
-        socket.emit('team:all', function(err, data){
-            if (err){
-                console.log('socket error', err);
-            } else {
-                data.forEach(function(team, i){
-                    addTeam(team, i);
-                });
-            }
+        socket.emit('matching:randomTeams', {
+          id: teamId
+        }, function(err, teams) {
+          console.log(err, teams);
+          teams.forEach(function(team, i) {
+            addTeam(team, i);
+          });
         });
     }
 
@@ -45,6 +45,7 @@
         console.log("add team #"+i, team);
         var li = document.createElement("li");
         li.className = "card boxShadow";
+        li.id = team._id;
         ul.appendChild(li);
         //must have marginLeft defined
         //console.log(li.style.marginLeft);
@@ -274,6 +275,7 @@
 
     function lovehate(element, buttonSign) {
         var sign;
+        var match_teamId = element.id;
 
         if (buttonSign) {
             sign = buttonSign;
@@ -294,21 +296,62 @@
                 if (element.parentNode) {
                     element.parentNode.removeChild(element);
                 }
+                // match : sign 1(love) or -1(hate)
+                console.log('my_team:', teamId);
+                console.log('match_team:', match_teamId);
+
+                if (sign === 1) {
+                  socket.emit('matching:addToFavorites', {
+                    my_team: teamId,
+                    match_team: match_teamId
+                  }, function(err, result) {
+                    if (ul.children.length <= 1) {
+                      getTeams();
+                      console.log('another API request');
+                    }
+                  });  
+                } else {
+                  socket.emit('matching:addToDislikes', {
+                    my_team: teamId,
+                    match_team: match_teamId
+                  }, function(err, result) {
+                    if (ul.children.length <= 1) {
+                      getTeams();
+                      console.log('another API request');
+                    }
+                  }); 
+                }
             }
         });
-
-        //infinite supply of photos
-        console.log(ul.children.length);
-        if (ul.children.length <= 1) {
-            getTeams();
-            console.log("another API request");
-        }
     }
 
 
-    dragdrop.init = function(){
-        getTeams();
-        buttonListeners();
+    dragdrop.init = function(ID){
+
+      teamId = ID;
+      console.log(teamId);
+
+      // change title
+      var title = $('#title');
+      title.text('');
+
+      socket.emit('team:info',{
+        id: teamId
+      }, function(err, team) {
+        if (err) throw err;
+        team.members.forEach(function(member) {
+          socket.emit('user:info', {
+            id: member
+          }, function(err, user) {
+            if (err) throw err;
+            var text = title.text() + ' ' + user.name;
+            title.text(text);
+          });
+        });
+      });
+
+      getTeams();
+      buttonListeners();
     };
 
     return dragdrop;
