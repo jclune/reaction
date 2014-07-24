@@ -33,8 +33,8 @@ router.get('/groupProfile', function(req, res) {
   res.render('main/groupProfile', { title: 'Group Profile' });
 });
 
-router.get('/matching', function(req, res) {
-  res.render('main/matching', { title: 'Matching' });
+router.get('/matching/:id([0-9a-f]{24})', function(req, res) {
+  res.render('main/matching', { title: 'Matching', teamId: req.params.id });
 });
 
 router.get('/settings', function(req, res) {

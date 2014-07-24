@@ -8,7 +8,7 @@ block script
       var self = this;
       self.teams = ko.observableArray();
       self.selectTeam = function(team) {
-        location.href='/teams/' + team._id;
+        location.href='/matching/' + team._id;
       };
     }
     var model = new ViewModel();
