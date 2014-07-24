@@ -21,7 +21,7 @@ var config = {
     facebook: {
       clientID: '570273149750167',
       clientSecret: '24035180906bc470716a3ae33baa8caa',
-      callbackURL: 'http://localhost:3000/auth/facebook/callback'
+      callbackURL: 'http://ca-reaction.herokuapp.com/auth/facebook/callback'
     },
     mongo: {
       uri: 'mongodb://reaction:Cyber0gent@kahana.mongohq.com:10022/reaction_dev',
