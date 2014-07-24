@@ -42,4 +42,11 @@ block content
     h4.center
       a(href="/logout")
         i.fa.fa-power-off &nbsp; logout
+
+block script
+  script.
+    var menu = document.getElementById('settings');
+    if (menu){
+      menu.className = menu.className + " menu-item-divided pure-menu-selected";
+    }
     

@@ -1,15 +1,20 @@
 extends ../layout
 
-block content    
+block content
   .center-wrap
     .sidebyside.center
       button.pure-button.pure-button-secondary.passBtn
         span pass
       button.pure-button.pure-button-primary.likeBtn
         i.fa.fa-heart.fa-3x
-  #container.center-wrap
+  #container.center-wrap.content
     ul#matches.center
+
 block script
   script(type='text/javascript', src='/scripts/dragdrop.js')
   script.
     dragdrop.init('#{teamId}');
+    var menu = document.getElementById('matching');
+    if (menu){
+      menu.className = menu.className + " menu-item-divided pure-menu-selected";
+    }

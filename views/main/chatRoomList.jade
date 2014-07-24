@@ -39,3 +39,8 @@ block content
       var roomId = $(this).attr('id');
       window.location.replace('/chatRoom/' + roomId);
     });
+    
+    var menu = document.getElementById('chatRoomListMenu');
+    if (menu){
+      menu.className = menu.className + " menu-item-divided pure-menu-selected";
+    }

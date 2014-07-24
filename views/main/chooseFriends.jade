@@ -27,6 +27,11 @@ block content
         console.log(data.user);
       });
 
+    var menu = document.getElementById('chooseFriends');
+    if (menu){
+      menu.className = menu.className + " menu-item-divided pure-menu-selected";
+    }
+
   //-   socket.on('message', function(message) {
   //-     var li = $('<li> <img src="/users/'
   //-     + message.userId + '/picture" /><span>'
@@ -36,4 +41,6 @@ block content
 
 //- a
 //-           h5.right.addbutton(href="#") add
+
+
 
