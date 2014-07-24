@@ -8,7 +8,7 @@ html
     h1.titlehead#title
   
     ul#conversation
-    
+
     form.pure-form
       input#message(style='display: inline-block')
       button#submit(type='submit', class='pure-button pure-button-primary') 送信
@@ -22,7 +22,10 @@ html
 
       var myMemberList = [];
       var otherMemberList = [];
+
+      console.log('test');
       socket.emit('memberList', '#{roomId}', function(err, lists) {
+        console.log('messages', err, lists);
         
         lists[0].forEach(function(member) {
           if (member._id == '#{userId}') {
@@ -53,22 +56,27 @@ html
       $('#submit').on('click', function(event) {
         socket.emit('message', $('#message').val());
         $('#message').val('');
+        return false;
       })
   
       socket.on('message', function(message) {
+        console.log(myMemberList);
+
         var li = null;
         myMemberList.forEach(function (member) {
           if (message.userId == member._id) {
-            li = $('<li style="text-align:left"> <img src="/users/'
-            + message.userId + '/picture" /><span>'
+            li = $('<li style="text-align:left"><img src="/users/'
+            + message.userId + '/picture" /><span class="test">'
             + message.message + '</span></li>');
           }
         });
         if (li === null) {
-          li = $('<li style="text-align:right"> <span>'
+          li = $('<li style="text-align:right"><span class="test2">'
           + message.message + '</span><img src="/users/'
           + message.userId + '/picture" /></li>');
         }
+
         $('#conversation').append(li);
+
         $('html,body').animate({scrollTop: 10000},'fast');
       });

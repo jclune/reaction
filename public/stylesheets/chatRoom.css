@@ -1,5 +1,5 @@
 form {
-  text-align: center;
+  text-align: center; 
   width: 100%;
   position: fixed;
   bottom: 0px;
@@ -14,5 +14,43 @@ h1 {
   background-color: #fff;
 }
 ul {
-  padding: 40px;
+  padding: 10px;
+  list-style-type: none;
+}
+li {
+  font-size: 15px;
+}
+.titlehead {
+  font-size: 10px;
+  color: #fff;
+  height: 30px;
+  background-color: #b1103c;
+}
+img {
+  border-radius: 30px;
+  width: 40px;
+  height: 40px;
+  margin: 0px;
+}
+div {
+  margin: 50px;
+}
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", verdana, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", Sans-Serif;
+  width: 100%;
+  background: #d3d3d3;
+  color: #332;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+.test {
+  margin: 10px;
+  position: 50%;
+}
+.test2 {
+  margin: 10px;
 }
