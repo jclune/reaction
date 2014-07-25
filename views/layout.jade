@@ -44,6 +44,17 @@ html
               a(href="/chatRoomList")
                 i.fa.fa-wechat.fa-2x
                 span Chat
+      
+      script.
+        var socket = io();
+        socket.emit('userTeam:get', function(err, userTeam) {
+          if (err) throw err;
+          if (userTeam !== null) {
+            var href = $('#matching a').attr('href');
+            $('#matching a').attr('href', href + '/' + userTeam.team);
+          }
+        });
+
       #main
         h1(style='white-space:nowrap;').titlehead#title= title
         #content                        

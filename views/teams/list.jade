@@ -8,7 +8,12 @@ block script
       var self = this;
       self.teams = ko.observableArray();
       self.selectTeam = function(team) {
-        location.href='/matching/' + team._id;
+        socket.emit('userTeam:save', team, function(err) {
+          if (err) throw err;
+          console.log('team: ', team);
+          location.href='/matching/' + team._id;
+        });
+
       };
     }
     var model = new ViewModel();
@@ -57,6 +62,7 @@ block script
         return item._id === teamId;
       });
     });
+
 block content
   .pure-g(style='height: 60px;')
     button.pure-button.pure-button-primary(style='margin:auto 20px auto auto', onclick='location.href="/teams/add"') チーム作成
