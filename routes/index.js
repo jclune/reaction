@@ -25,6 +25,17 @@ router.get('/editProfile', function(req, res) {
   res.render('main/editProfile', { title: 'Edit Profile' });
 });
 
+router.post('/editProfile', function(req, res) {
+  var name = req.body.name;
+  var bio = req.body.bio;
+  var user = req.session.passport.user;
+  
+  User.findByIdAndUpdate(user, {$set: {name: name, bio: bio}}, function(err, user) {
+    console.log(user.name, user.bio);
+    res.redirect('/editProfile');
+  });
+});
+
 router.get('/friendList', function(req, res) {
   res.render('main/friendList', { title: 'Friend List' });
 });
