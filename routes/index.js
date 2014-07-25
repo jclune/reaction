@@ -49,7 +49,7 @@ router.get('/matching/:id([0-9a-f]{24})', function(req, res, next) {
 });
 
 router.get('/matching', function(req, res) {
-  res.render('main/matchingError', { title: 'Matching'});
+  res.render('main/matching', { title: 'Matching', teamId: ''});
 });
 
 router.get('/settings', function(req, res) {

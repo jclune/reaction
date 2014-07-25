@@ -31,14 +31,31 @@
 
     function getTeams(){
         console.log("start getting teams");
-        socket.emit('matching:randomTeams', {
-          id: teamId
-        }, function(err, teams) {
-          console.log(err, teams);
-          teams.forEach(function(team, i) {
-            addTeam(team, i);
-          });
-        });
+        if (teamId == ''){
+            addError("Choose a team first.");
+        } else{
+            socket.emit('matching:randomTeams', {
+              id: teamId
+            }, function(err, teams) {
+                console.log(err, teams);
+                if (teams.length <= 0){
+                    addError("See more with a new team:");
+                } else {
+                    console.log(teams);
+                    teams.forEach(function(team, i) {
+                        addTeam(team, i);
+                    });
+                }
+            });
+        }
+
+    }
+
+    function addError(message){
+        var li = document.createElement("li");
+        li.className = "card boxShadow";
+        li.innerHTML = "<br/>Sorry, no new profiles.<br/><br/>"+message+" <br/><br/><a href='/teams'><i class='fa fa-users fa-2x'> </i> Teams</a><br/><br><br/>Or talk to matches!<br/><br/><a href='/chat'><i class='fa fa-wechat fa-2x'> </i> Chat</a>";
+        ul.appendChild(li);
     }
 
     function addTeam(team, i){
@@ -331,27 +348,29 @@
 
     dragdrop.init = function(ID){
 
-      teamId = ID;
+      teamId = ID || '';
       console.log(teamId);
 
       // change title
       var title = $('#title');
       title.text('');
 
-      socket.emit('team:info',{
-        id: teamId
-      }, function(err, team) {
-        if (err) throw err;
-        team.members.forEach(function(member) {
-          socket.emit('user:info', {
-            id: member
-          }, function(err, user) {
+      if (teamId){
+          socket.emit('team:info',{
+            id: teamId
+          }, function(err, team) {
             if (err) throw err;
-            var text = title.text() + ' ' + user.name;
-            title.text(text);
+            team.members.forEach(function(member) {
+              socket.emit('user:info', {
+                id: member
+              }, function(err, user) {
+                if (err) throw err;
+                var text = title.text() + ' ' + user.name;
+                title.text(text);
+              });
+            });
           });
-        });
-      });
+      }
 
       getTeams();
       buttonListeners();

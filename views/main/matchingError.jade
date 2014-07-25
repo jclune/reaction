@@ -7,8 +7,10 @@ block content
       span Please choose a team before finding matches!
 
 block script
+  script(type='text/javascript', src='/scripts/dragdrop.js')
   script.
     var menu = document.getElementById('matching');
     if (menu){
       menu.className = menu.className + " menu-item-divided pure-menu-selected";
     }
+    dragdrop.init(0);

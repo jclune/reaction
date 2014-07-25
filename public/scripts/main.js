@@ -38,25 +38,28 @@
     var li = menu.getElementsByTagName('li');
     console.log(menu.getElementsByTagName('li'));
 
-    for (i=0; i < li.length; i++){
-        li[i].onclick = function(e){
-            e.stopPropagation();
+    $menu = $(menu);
+    $li = $menu.find('li');
+    console.log($li);
 
-            var lastActive = this.parentNode.getElementsByClassName('menu-item-divided pure-menu-selected');
-            if (lastActive){
-                lastActive[0].className = "";
-            }
-            console.log(this);
-            this.className = "clicked";
+    $li.on('click', function(e){
+        e.stopPropagation();
 
-            setTimeout(function(e){
-            var active = 'active';
-                toggleClass(layout, active);
-                toggleClass(menu, active);
-                toggleClass(menuLink, active);                
-            },300);
-        };
-    }
+        var lastActive = this.parentNode.getElementsByClassName('menu-item-divided pure-menu-selected');
+        if (lastActive){
+            lastActive[0].className = "";
+        }
+        console.log(this);
+        this.className = "clicked";
+
+        setTimeout(function(e){
+        var active = 'active';
+            toggleClass(layout, active);
+            toggleClass(menu, active);
+            toggleClass(menuLink, active);                
+        },300);
+    });
+
     menu.onclick = function (e) {
         var active = 'active';
 
