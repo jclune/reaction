@@ -9,7 +9,9 @@ html
     script(type='text/javascript', src='/validator-js/validator.js')
     script(type='text/javascript', src='/socket.io/socket.io.js')
     script(type='text/javascript', src='/scripts/main.js')
+    script(type='text/javascript', src='/scripts/noti.js')
     link(rel='stylesheet', href='/pure/pure-min.css')
+    link(rel='stylesheet', href='/pure-extras/css/pure-extras.css')
     link(rel='stylesheet', href='/fontawesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     != LRScript
@@ -20,6 +22,7 @@ html
         i.fa.fa-bars.fa-2x
       a#chatLink.chat-link(href='/chatRoomList')
         i.fa.fa-wechat.fa-2x
+          span.message-all-count.pure-badge-warning(style='display:none')
       #menu
         .pure-menu.pure-menu-open
           a.pure-menu-heading(href='#') Reaction
@@ -44,7 +47,7 @@ html
               a(href="/chatRoomList")
                 i.fa.fa-wechat.fa-2x
                 span Chat
-      
+                  span.message-all-count.pure-badge-warning(style='display:none')
       script.
         var socket = io();
         socket.emit('userTeam:get', function(err, userTeam) {
@@ -54,7 +57,6 @@ html
             $('#matching a').attr('href', href + '/' + userTeam.team);
           }
         });
-
       #main
         h1(style='white-space:nowrap;').titlehead#title= title
         #content                        
