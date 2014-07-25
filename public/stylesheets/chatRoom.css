@@ -1,3 +1,70 @@
+#conversation {
+  position: relative;
+  margin-top: 45px;
+  margin-bottom: 60px;
+}
+/* LeftBox */
+.speakBoxLeft {
+  text-align: left;
+  margin: 5px;
+  position: relative;
+}
+.speakBoxLeft-userpic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 30px;
+}
+.speakBoxLeft-prickle {
+  position: absolute;
+  top: 5px;
+  left: 50px;
+  color: #fff;
+}
+.speakBoxLeft-balloon {
+  text-overflow: initial;
+  overflow-wrap: initial;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 45px;
+  margin: 5px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px;
+  max-width: 225px;
+}
+/* rightBox */
+.speakBoxRight {
+  text-align: left;
+  margin: 5px;
+  position: relative;
+}
+.speakBoxRight-userpic {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 30px;
+}
+.speakBoxRight-prickle {
+  position: absolute;
+  top: 5px;
+  right: 50px;
+  color: #fff;
+}
+.speakBoxRight-balloon {
+  text-overflow: initial;
+  overflow-wrap: initial;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 45px;
+  margin: 5px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px;
+  max-width: 225px;
+}
 form {
   text-align: center;
   width: 100%;
@@ -16,6 +83,8 @@ h1 {
 ul {
   padding: 10px;
   list-style-type: none;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 li {
   font-size: 15px;
@@ -25,11 +94,10 @@ li {
   color: #fff;
   background-color: #b1103c;
 }
-img {
-  border-radius: 30px;
-  width: 40px;
-  height: 40px;
-  margin: 0px;
+li.chat {
+  width: 100%;
+  min-height: 40px;
+  margin-top: 20px;
 }
 body {
   padding: 0;
@@ -42,10 +110,53 @@ body {
   font-variant: normal;
   font-weight: normal;
   font-size: 16px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 .test {
   margin: 10px;
 }
 .test2 {
   margin: 10px;
+}
+.define {
+  background-color: #fff;
+  margin: 0px;
+  width: 70%;
+  text-align: center;
+  border-radius: 8px;
+  float: right;
+  margin-top: 20px;
+  margin-right: 5px;
+  word-break: break-all;
+}
+.define2 {
+  background-color: #fff;
+  margin: 0px;
+  width: 70%;
+  text-align: center;
+  border-radius: 8px;
+  float: left;
+  margin-left: -10px;
+  word-break: break-all;
+}
+.togetoge {
+  width: 20px;
+  height: 20px;
+  float: right;
+  margin-left: -15px;
+  margin-top: 15px;
+}
+.togetoge2 {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-left: 50px;
+}
+.leftpic {
+  position: left;
+}
+#content {
+  background: #d3d3d3;
 }
