@@ -23,15 +23,16 @@ block script
         //-   var _h = $(item).height();
         //-   var _box = $(item).closest(".js-speakBox").height(_h + 100);
         //- });
-      });
-      var fixSpeakBox = function(div){
-          var item = div.find(".js-balloon")[0];
-          var _h = $(item).height();
-          if ( _h < 40 ){
-            _h = 40 ;
-            }
-          var _box = $(item).closest(".js-speakBox").height(_h + 20);
-      }   
+    });
+    var fixSpeakBox = function(div){
+        var item = div.find(".js-balloon")[0];
+        var _h = $(item).height();
+        if ( _h < 40 ){
+          _h = 40 ;
+          }
+        var _box = $(item).closest(".js-speakBox").height(_h + 20);
+    }        
+
 
     var socket = io();
     socket.on('connect', function() {
@@ -71,30 +72,61 @@ block script
       socket.emit('ready');
     });
 
-    $('#submit').on('click', function(event) {
-      socket.emit('message', $('#message').val());
-      $('#message').val('');
-      return false;
-    })
+      $('#submit').on('click', function(event) {
+        socket.emit('message', $('#message').val());
+        $('#message').val('');
+        return false;
+      })
+  
+      socket.on('message', function(message) {
+        console.log('receive message! myMemberList=', myMemberList);
 
-    socket.on('message', function(message) {
-      console.log(myMemberList);
-
-      var li = null;
-      myMemberList.forEach(function (member) {
-        if (message.userId == member._id) {
-          li = $('<li style="text-align:left"><img src="/users/'
-          + message.userId + '/picture" /><span class="test">'
-          + message.message + '</span></li>');
+        var div = {};
+        var _html = null;
+        myMemberList.forEach(function(member) {
+          if (message.userId == member._id) {
+            // Leftのとき
+            _html = '';
+            _html += '<div style=" margin: 5px;">';
+            _html += '<div class="speakBoxRight js-speakBox">';
+            _html += '<img class="speakBoxRight-userpic" src="/users/_USERID_/picture">';
+            _html += '<div class="speakBoxRight-prickle">';
+            _html += '▼';
+            _html += '</div>';
+            _html += '<div class="test speakBoxRight-balloon js-balloon">';
+            _html += '_MESSAGE_';
+            _html += '</div>';
+            _html += '</div>';
+            _html += '</div>';
+          }
+        });
+        
+        if (_html === null) {
+          // Rightのとき
+          _html = '';
+          _html += '<div style=" margin: 5px;">';
+          _html += '<div class="speakBoxLeft js-speakBox">';
+          _html += '<img class="speakBoxLeft-userpic" src="/users/_USERID_/picture">';
+          _html += '<div class="speakBoxLeft-prickle">';
+          _html += '▼';
+          _html += '</div>';
+          _html += '<div class="test speakBoxLeft-balloon js-balloon">';
+          _html += '_MESSAGE_';
+          _html += '</div>';
+          _html += '</div>';
+          _html += '</div>';
         }
+
+        // _html にデータをバインド 
+        _html = _html.replace("_USERID_", message.userId);
+        _html = _html.replace("_MESSAGE_", message.message);
+        div = $(_html); 
+
+        // DOMにレンダリング
+        $('#conversation').append( div );
+        $('html,body').animate({
+          scrollTop: 10000
+        }, 'fast');
+  
+        fixSpeakBox( div );
       });
-      if (li === null) {
-        li = $('<li style="text-align:right"><span class="test2">'
-        + message.message + '</span><img src="/users/'
-        + message.userId + '/picture" /></li>');
-      }
-
-      $('#conversation').append(li);
-
-      $('html,body').animate({scrollTop: 10000},'fast');
-    });
