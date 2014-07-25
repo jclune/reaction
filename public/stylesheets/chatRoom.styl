@@ -1,3 +1,78 @@
+#conversation 
+  position relative
+  margin-top 45px
+  margin-bottom 60px
+
+
+/* LeftBox */
+.speakBoxLeft 
+  text-align left
+  margin 5px
+  position relative
+  
+
+.speakBoxLeft-userpic 
+  position absolute
+  top 0
+  left 0
+  border-radius 30px
+
+.speakBoxLeft-prickle 
+  position absolute
+  top 5px
+  left 50px
+  color #fff
+
+
+.speakBoxLeft-balloon 
+  text-overflow initial
+  overflow-wrap initial
+  display block 
+  position absolute
+  top 0
+  left 45px 
+  margin 5px
+  background #fff
+  border-radius 8px
+  padding 4px
+  max-width 225px
+
+/* rightBox */
+.speakBoxRight 
+  text-align left
+  margin 5px
+  position relative
+  
+  
+
+
+.speakBoxRight-userpic 
+  position absolute
+  top 0
+  right 0
+  border-radius 30px
+
+.speakBoxRight-prickle 
+  position absolute
+  top 5px
+  right 50px
+  color #fff
+
+
+.speakBoxRight-balloon 
+  text-overflow initial
+  overflow-wrap initial
+  display block
+  position absolute
+  top 0
+  right 45px
+  margin 5px
+  background #fff
+  border-radius 8px
+  padding 4px
+  max-width 225px
+
+
 $bgColor = lightgray
 $colorPrime = #333322
 $alpha = 0.8
@@ -26,21 +101,43 @@ h1
 ul
   padding 10px
   list-style-type none
+  margin-top 30px
+  margin-bottom 50px
 
 li
   font-size 15px
+
 
 .titlehead
   font-size 10px
   color white
   background-color #B1103C
   
-img
-  border-radius 30px
-  width 40px
-  height 40px
-  margin 0px
+// img
+//   border-radius 30px
+//   box-shadow 10px 10px 10px 10px rgba(0,0,0,0.4) 
+//   width 40px
+//   height 40px
+//   margin 0px
 
+// img.picright
+//   border-radius 30px
+//   width 40px
+//   height 40px
+//   margin 0px
+//   float right
+
+// img.picleft
+//   border-radius 30px
+//   width 40px
+//   height 40px
+//   margin 0px
+//   float left
+
+li.chat
+  width: 100%
+  min-height: 40px
+  margin-top: 20px
 
 body
   padding 0
@@ -53,10 +150,64 @@ body
   font-variant: normal
   font-weight: normal
   font-size: $fontSize
+  overflow-wrap break-word
+  word-wrap break-word
+  word-break break-all
 
 .test
   margin 10px
 
 .test2
   margin 10px
-  
+
+.define
+  background-color white
+  margin 0px
+  width 70%
+  //height 60%
+  text-align center
+  //position relative
+  //left 40px
+  //top -30px
+  border-radius 8px
+  float right
+  margin-top 20px
+  margin-right 5px
+  word-break break-all
+
+
+.define2
+  background-color white
+  margin 0px
+  width 70% //auto
+  //height 60%
+  text-align center
+  //position relative
+  //left 55px
+  //top 40px
+  border-radius 8px
+  float left
+  margin-left -10px
+  word-break break-all
+
+.togetoge
+  width 20px
+  height 20px
+  float right
+  margin-left -15px
+  margin-top 15px
+  //left 50px
+  //margin-top 20px
+
+.togetoge2
+  width 20px
+  height 20px
+  float left
+  margin-left 50px
+
+  //margin-left 50px
+  //margin-top 0px
+  //margin-bottom 0px
+
+.leftpic
+  position left

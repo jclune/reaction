@@ -6,7 +6,7 @@ block headLinks
 block content
   h1.titlehead#title
 
-  ul#conversation
+  #conversation
 
   form.pure-form
     input#message(style='display: inline-block')
@@ -17,6 +17,22 @@ block script
   //- script(src='/socket.io/socket.io.js')
 
   script.
+
+    $(function() {
+        //- $(".js-balloon").each(function(index, item) {
+        //-   var _h = $(item).height();
+        //-   var _box = $(item).closest(".js-speakBox").height(_h + 100);
+        //- });
+      });
+      var fixSpeakBox = function(div){
+          var item = div.find(".js-balloon")[0];
+          var _h = $(item).height();
+          if ( _h < 40 ){
+            _h = 40 ;
+            }
+          var _box = $(item).closest(".js-speakBox").height(_h + 20);
+      }   
+
     var socket = io();
     socket.on('connect', function() {
       socket.emit('join room', '#{roomId}');
