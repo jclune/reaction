@@ -13,7 +13,26 @@ block content
 block script
   script(type='text/javascript', src='/scripts/dragdrop.js')
   script.
-    dragdrop.init('#{teamId}');
+    var socket = io.connect();
+    var lastTeam;
+    if ('#{teamId}' === ''){
+      socket.emit('team:all', function(err, teams) {
+        if (err){
+          console.log("socket error", error);
+        }
+        else if (teams.length >= 0){
+          lastTeam = teams[teams.length - 1]._id;
+          console.log("recent team id", lastTeam);
+          dragdrop.init(lastTeam);  
+        } else {
+          dragdrop.init('#{teamId}');
+          console.log("no teams made yet")
+        }
+      });
+    } else{
+      dragdrop.init('#{teamId}');
+    }
+    
     var menu = document.getElementById('matching');
     if (menu){
       menu.className = menu.className + " menu-item-divided pure-menu-selected";
