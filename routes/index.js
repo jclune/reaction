@@ -6,7 +6,7 @@ var User = mongoose.model('User');
 
 /* GET home page. */
 router.get('/', function (req, res) {
-  res.render('index', { title: 'Express' });
+  res.redirect('/teams');
 });
 
 router.get('/chatRoom/:roomId', function(req, res) {
