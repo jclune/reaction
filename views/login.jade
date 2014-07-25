@@ -2,7 +2,8 @@ extends layout
 block content
   div.center-wrap
     div.center
-      h1= title
-      p ログインしてください。
-      #loginUrl
-        a(href='auth/facebook') ログイン via Facebook
+      .lp
+        h1 合コンのマッチングアプリ
+      a(href='auth/facebook')#loginUrl.pure-button
+        span facebook ログイン
+      .lp-image

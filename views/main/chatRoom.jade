@@ -73,8 +73,9 @@ block script
     });
 
       $('#submit').on('click', function(event) {
-        socket.emit('message', $('#message').val());
-        $('#message').val('');
+        if ($('#message').val().length > 0){
+          socket.emit('message', $('#message').val());
+        }
         return false;
       })
   
