@@ -73,8 +73,9 @@ block script
     });
 
       $('#submit').on('click', function(event) {
-        if ($('#message').val().length > 0){
-          socket.emit('message', $('#message').val());
+        var message = validator.escape($('#message').val());
+        if (message.length > 0){
+          socket.emit('message', message);
         }
         return false;
       })

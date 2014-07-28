@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var User = mongoose.model('User');
+var validator = require('validator');
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -10,7 +11,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/chatRoom/:roomId', function(req, res) {
-  res.render('main/chatRoom', { userId: req.session.passport.user, roomId: req.params.roomId });
+  res.render('main/chatRoom', { userId: req.session.passport.user, roomId: validator.escape(req.params.roomId) });
 });
 
 router.get('/chatRoomList', function(req, res) {
@@ -26,8 +27,8 @@ router.get('/editProfile', function(req, res) {
 });
 
 router.post('/editProfile', function(req, res) {
-  var name = req.body.name;
-  var bio = req.body.bio;
+  var name = validator.escape(req.body.name);
+  var bio = validator.escape(req.body.bio);
   var user = req.session.passport.user;
   
   User.findByIdAndUpdate(user, {$set: {name: name, bio: bio}}, function(err, user) {
@@ -45,7 +46,7 @@ router.get('/groupProfile', function(req, res) {
 });
 
 router.get('/matching/:id([0-9a-f]{24})', function(req, res, next) {
-  res.render('main/matching', { title: 'Matching', teamId: req.params.id });
+  res.render('main/matching', { title: 'Matching', teamId: validator.escape(req.params.id) });
 });
 
 router.get('/matching', function(req, res) {

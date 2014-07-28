@@ -97,7 +97,7 @@
     console.log(elements);
     if (elements){
       for (var i=0; i < elements.length; i++){
-        elements[i].setAttribute('src', '/users/'+validator.toString(fid)+'/picture');
+        elements[i].setAttribute('src', '/users/'+validator.escape(fid)+'/picture');
       }
     } else {
       console.log("document doesn't have elments for: ", my+'picture');
@@ -125,7 +125,7 @@
       var elements = document.getElementsByClassName(my+className);
       if (elements){
         for (var i=0; i < elements.length; i++){
-          setElement(elements[i], validator.toString(data[className]));
+          setElement(elements[i], validator.escape(data[className]));
         }
       } else {
         console.log("document doesn't have elments for: ", my+className);
