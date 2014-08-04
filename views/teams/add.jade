@@ -34,7 +34,8 @@ block script
             self.createButtonActived(false);
             alert(err);
           } else {
-            location.href='/teams/' + team._id;
+            //location.href='/teams/' + team._id;
+            location.href = '/matching/' + team._id;
           }
         });
       }

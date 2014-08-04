@@ -54,7 +54,7 @@ html
           if (err) throw err;
           if (userTeam !== null) {
             var href = $('#matching a').attr('href');
-            $('#matching a').attr('href', href + '/' + userTeam.team);
+            $('#matching a').attr('href', href + '/' + validator.escape(userTeam.team));
           }
         });
       #main

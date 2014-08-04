@@ -31,7 +31,7 @@
 
     function getTeams(){
         console.log("start getting teams");
-        if (teamId == ''){
+        if (teamId ===''){
             addError("Choose a team first.");
         } else{
             socket.emit('matching:randomTeams', {
@@ -54,7 +54,7 @@
     function addError(message){
         var li = document.createElement("li");
         li.className = "card boxShadow";
-        li.innerHTML = "<br/>Sorry, no new profiles.<br/><br/>"+message+" <br/><br/><a href='/teams'><i class='fa fa-users fa-2x'> </i> Teams</a><br/><br><br/>Or talk to matches!<br/><br/><a href='/chat'><i class='fa fa-wechat fa-2x'> </i> Chat</a>";
+        li.innerHTML = "<br/>Sorry, no new profiles.<br/><br/>"+message+" <br/><br/><a href='/teams'><i class='fa fa-users fa-2x'> </i> Teams</a><br/><br><br/>Or talk to matches!<br/><br/><a href='/chatRoomList'><i class='fa fa-wechat fa-2x'> </i> Chat</a>";
         ul.appendChild(li);
     }
 
@@ -120,7 +120,7 @@
               console.log("member #"+j, user);
 
               var img = div.getElementsByClassName('picture');
-              img[0].setAttribute('src', '/users/'+validator.toString(uid)+'/picture');
+              img[0].setAttribute('src', '/users/'+validator.escape(uid)+'/picture');
 
               var d = new Date();
               var age = parseInt((d.getTime() - Date.parse(user.facebook.birthday))/1000/60/60/24/365.25);
@@ -137,7 +137,7 @@
                 console.log("changing element ", elements[0]);
                 console.log("with data ", data[className]);
                 if (elements){
-                    elements[0].innerHTML = validator.toString(data[className]);
+                    elements[0].innerHTML = validator.escape(data[className]);
                 } else {
                     console.log("document doesn't have elments for: ", className);
                 }
